@@ -239,15 +239,16 @@ public class RegisterFrame extends javax.swing.JFrame {
                                 descBitUsersFile.createNewFile();
                                 createDesc(descBitUsersFile, username);
                             }
-                            
+                           
                             if (!isMaxReorg(bitUsersFile, descBitUsersFile)) {
-                                addUser(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile);
+                                addUser(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
                             }
                             else
                             {
                                 
                             }
-                            //Metodo para modificar descriptores
+                            
+                            showMessageDialog(null, "Your user has been successfully created. Please, enter your credentials to continue.");
                             
                         } catch (Exception e){
                             e.printStackTrace();
@@ -488,9 +489,9 @@ public class RegisterFrame extends javax.swing.JFrame {
                 + "\nusuario_creacion: " + username
                 + "\nfecha_modificacion: "
                 + "\nusuario_modificacion: "
-                + "\n#_registros: "
-                + "\nregistros_activos: "
-                + "\nregistros_inactivos: "
+                + "\n#_registros: 0"
+                + "\nregistros_activos: 0"
+                + "\nregistros_inactivos: 0"
                 + "\nmax_reorganización: 3"; //3 IS THE DEFAULT VALUE
         
             FileWriter fw = new FileWriter(file);
@@ -517,6 +518,9 @@ public class RegisterFrame extends javax.swing.JFrame {
             }
             
             aux = aux.replace("max_reorganización: ", "");
+            
+            brResult.close();
+            
             int maxReorg = Integer.parseInt(aux);
             return maxReorg;
         }catch(IOException ex)
@@ -527,28 +531,11 @@ public class RegisterFrame extends javax.swing.JFrame {
     }
     public boolean isMaxReorg(File bit, File desc)
     {
-         try
-        {
-            FileReader frResult = new FileReader(bit);
-             BufferedReader brResult = new BufferedReader(frResult);
-
-            String line;
-            int count = 0;
-
-            //Obtain last line
-            while((line = brResult.readLine()) != null){
-                count++;
-            }
-            
-            return count>=MaxReorg(desc);
-            
-        }catch(IOException ex)
-                {
-                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
-                    return false;
-                }  
+       int count = countUsers(bit);          
+       return count>=MaxReorg(desc);        
+ 
     }
-    public void addUser(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file)
+    public void addUser(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file, File desc)
     {
          try{
             String data = user + "|" + name + "|" + lastname + "|" + pass + "|" + role + "|" + birthDate + "|" + email + "|" + phone + "|" + imagePath + "|" + status + "\n";
@@ -558,15 +545,123 @@ public class RegisterFrame extends javax.swing.JFrame {
             bw.append(data);
             bw.close();
             
+            updateDesc(file, desc, user);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void updateBit(String user)
+    public void updateDesc(File bit, File desc, String user)
     {
-        
+        try
+        {
+            FileReader frResult = new FileReader(bit);
+            BufferedReader brResult = new BufferedReader(frResult);
+            
+            FileReader frResultDesc = new FileReader(desc);
+            BufferedReader brResultDesc = new BufferedReader(frResultDesc);
+
+            String line;
+            List<String> list = new ArrayList<String>();
+
+            while((line = brResultDesc.readLine()) != null){
+                list.add(line);
+            }
+            
+            list.set(3, "fecha_modificacion: " + getDate());
+            list.set(4, "usuario_modificacion: " + user);
+            list.set(5, "#_registros: " + countUsers(bit));
+            list.set(6, "registros_activos: " + countActive(bit));
+            list.set(7, "#registros_inactivos: " + countInactive(bit));
+            
+            String descContent = "";
+            
+            for (String data :list) {
+                descContent += data + "\n";
+            }
+            
+            FileWriter fw = new FileWriter(desc);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(descContent);
+            
+            brResult.close();
+            brResultDesc.close();
+            bw.close();
+                
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                }  
     }
-    
+    public int countUsers(File file)
+    {
+        try
+        {
+            FileReader frResult = new FileReader(file);
+            BufferedReader brResult = new BufferedReader(frResult);
+
+            String line;
+            int count = 0;
+
+            while((line = brResult.readLine()) != null){
+                count++;
+            }
+            return count;
+                
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                    return -1;
+                }  
+    }
+    public int countActive(File file)
+    {
+        try
+        {
+            FileReader frResult = new FileReader(file);
+            BufferedReader brResult = new BufferedReader(frResult);
+
+            String line;
+            int count = 0;
+
+            while((line = brResult.readLine()) != null){
+                String[] arr = line.split("\\|");
+                if (arr[9].contains("1")) {
+                    count++;
+                }
+            }
+            return count;
+                
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                    return -1;
+                }  
+    }
+    public int countInactive(File file)
+    {
+        try
+        {
+            FileReader frResult = new FileReader(file);
+            BufferedReader brResult = new BufferedReader(frResult);
+
+            String line;
+            int count = 0;
+
+            while((line = brResult.readLine()) != null){
+                String[] arr = line.split("\\|");
+                if (arr[9].contains("0")) {
+                    count++;
+                }
+            }
+            return count;
+                
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                    return -1;
+                }  
+    }
     /**
      * @param args the command line arguments
      */
