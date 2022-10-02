@@ -23,17 +23,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="139" pref="149" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -41,7 +41,6 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="JTFUsername" min="-2" pref="413" max="-2" attributes="0"/>
                           <Component id="JTFName" min="-2" pref="413" max="-2" attributes="0"/>
-                          <Component id="JTFBirthDate" alignment="1" min="-2" pref="413" max="-2" attributes="0"/>
                           <Component id="JTFPassword" alignment="1" min="-2" pref="413" max="-2" attributes="0"/>
                           <Component id="JTFLastName" alignment="1" min="-2" pref="413" max="-2" attributes="0"/>
                       </Group>
@@ -49,9 +48,11 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="JBPhoto" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="JTFEmail" alignment="0" pref="413" max="32767" attributes="0"/>
-                          <Component id="JTFPhoneNumber" alignment="0" max="32767" attributes="0"/>
+                          <Component id="JTFPhotoPath" alignment="0" max="32767" attributes="0"/>
+                          <Component id="JBPhoto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="JTFPhoneNumber" alignment="1" max="32767" attributes="0"/>
+                          <Component id="JDCBirthDate" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
@@ -60,12 +61,12 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="505" max="-2" attributes="0"/>
-                      <Component id="JBRegister" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="547" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="493" max="-2" attributes="0"/>
+                      <Component id="JBRegister" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -101,29 +102,31 @@
                           </Group>
                           <Component id="JTFPassword" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          <Component id="JDCBirthDate" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                          <Component id="JTFEmail" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                          <Component id="JTFPhoneNumber" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                      <Component id="JBPhoto" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="JTFBirthDate" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                  <Component id="JTFEmail" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                  <Component id="JTFPhoneNumber" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                  <Component id="JBPhoto" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="77" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="JTFPhotoPath" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
               <Component id="JBRegister" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+              <EmptySpace pref="79" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -164,11 +167,6 @@
         <Property name="text" type="java.lang.String" value="*Email"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel8">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="*Profile photo"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
         <Property name="text" type="java.lang.String" value="*Phone number"/>
@@ -178,12 +176,13 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Register"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JBRegisterActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="JTFName">
     </Component>
     <Component class="javax.swing.JTextField" name="JTFUsername">
-    </Component>
-    <Component class="javax.swing.JTextField" name="JTFBirthDate">
     </Component>
     <Component class="javax.swing.JPasswordField" name="JTFPassword">
       <Properties>
@@ -192,13 +191,31 @@
     </Component>
     <Component class="javax.swing.JTextField" name="JTFLastName">
     </Component>
-    <Component class="javax.swing.JTextField" name="JTFPhoneNumber">
+    <Component class="javax.swing.JTextField" name="JTFPhotoPath">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="JTFEmail">
     </Component>
     <Component class="javax.swing.JButton" name="JBPhoto">
       <Properties>
         <Property name="text" type="java.lang.String" value="Import photo"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JBPhotoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel10">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="*Profile photo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="JTFPhoneNumber">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="JDCBirthDate">
+      <Properties>
+        <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
       </Properties>
     </Component>
   </SubComponents>

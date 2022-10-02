@@ -50,6 +50,11 @@ public class LoginFrame extends javax.swing.JFrame {
         JBLogin.setText("Login");
 
         JBRegisterForm.setText("Register here");
+        JBRegisterForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBRegisterFormActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,9 +98,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addComponent(jTFUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel3))
+                    .addComponent(jLabel3)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(JBLogin)
@@ -108,6 +111,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void JBRegisterFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRegisterFormActionPerformed
+        //Open register form and close actual form
+        RegisterFrame myFrame = new RegisterFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_JBRegisterFormActionPerformed
 
     /**
      * @param args the command line arguments
