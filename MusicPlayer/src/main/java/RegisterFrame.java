@@ -240,17 +240,22 @@ public class RegisterFrame extends javax.swing.JFrame {
                                 descBitUsersFile.createNewFile();
                                 createDesc(descBitUsersFile, username);
                             }
-                           
-                            if (!isMaxReorg(bitUsersFile, descBitUsersFile)) {
-                                addUserToBit(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
+                            if (!userExists(usersFile, bitUsersFile, username)) {
+                                if (!isMaxReorg(bitUsersFile, descBitUsersFile)) {
+                                    addUserToBit(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
+                                }
+                                else
+                                {
+                                    addUser(usersFile, bitUsersFile, descUsersFile, descBitUsersFile);
+                                    addUserToBit(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
+                                }
+
+                                showMessageDialog(null, "Your user has been successfully created. Please, enter your credentials to continue.");
                             }
                             else
                             {
-                                addUser(usersFile, bitUsersFile, descUsersFile, descBitUsersFile);
-                                addUserToBit(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
+                                showMessageDialog(null, "Register Failed: Your username already exists.");
                             }
-                            
-                            showMessageDialog(null, "Your user has been successfully created. Please, enter your credentials to continue.");
                             
                         } catch (Exception e){
                             e.printStackTrace();
@@ -258,13 +263,13 @@ public class RegisterFrame extends javax.swing.JFrame {
                     }
                     else
                     {
-                        showMessageDialog(null, "Register Failed: Your password is not secure, try with another password");
+                        showMessageDialog(null, "Register Failed: Your password is not secure, try with another password.");
                     }
    
                 }
                 else
                 {
-                    showMessageDialog(null, "Register Failed: Your email is not valid");
+                    showMessageDialog(null, "Register Failed: Your email is not valid.");
                 }
             }
             else
@@ -274,7 +279,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         }
         else
         {
-            showMessageDialog(null, "Register Failed: Some fields are empty or in the wrong format");
+            showMessageDialog(null, "Register Failed: Some fields are empty or in the wrong format.");
         }
     }//GEN-LAST:event_JBRegisterActionPerformed
 
@@ -726,6 +731,45 @@ public class RegisterFrame extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
                 }   
+    }
+    public boolean userExists(File master, File bit, String user)
+    {
+        try
+        {
+            FileReader frResult = new FileReader(master);
+            BufferedReader brResult = new BufferedReader(frResult);
+            
+            FileReader frResultBit = new FileReader(bit);
+            BufferedReader brResultBit = new BufferedReader(frResultBit);
+
+            String line;
+            List<String> list = new ArrayList<String>();
+
+            while((line = brResultBit.readLine()) != null){
+                String[] Arr = line.split("\\|");
+                if (Arr[0].equalsIgnoreCase(user)) {
+                    brResult.close();
+                    brResultBit.close();
+                    return true;
+                }
+            }
+            
+            while((line = brResult.readLine()) != null){
+                String[] Arr = line.split("\\|");
+                if (Arr[0].equalsIgnoreCase(user)) {
+                    brResult.close();
+                    brResultBit.close();
+                    return true;
+                }               
+            }
+           
+            return false;
+            
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                    return false;
+                } 
     }
     
     /**
