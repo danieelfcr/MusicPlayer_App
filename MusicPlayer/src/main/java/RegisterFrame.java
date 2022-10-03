@@ -20,6 +20,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 /**
  *
  * @author danie
@@ -241,11 +242,12 @@ public class RegisterFrame extends javax.swing.JFrame {
                             }
                            
                             if (!isMaxReorg(bitUsersFile, descBitUsersFile)) {
-                                addUser(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
+                                addUserToBit(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
                             }
                             else
                             {
-                                
+                                addUser(usersFile, bitUsersFile, descUsersFile, descBitUsersFile);
+                                addUserToBit(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
                             }
                             
                             showMessageDialog(null, "Your user has been successfully created. Please, enter your credentials to continue.");
@@ -535,7 +537,7 @@ public class RegisterFrame extends javax.swing.JFrame {
        return count>=MaxReorg(desc);        
  
     }
-    public void addUser(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file, File desc)
+    public void addUserToBit(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file, File desc)
     {
          try{
             String data = user + "|" + name + "|" + lastname + "|" + pass + "|" + role + "|" + birthDate + "|" + email + "|" + phone + "|" + imagePath + "|" + status + "\n";
@@ -662,6 +664,70 @@ public class RegisterFrame extends javax.swing.JFrame {
                     return -1;
                 }  
     }
+    public void addUser(File master, File bit, File descMaster, File descBit)
+    {
+       try
+        {
+            //Read master and binnacle files
+            FileReader frResultMaster = new FileReader(master);
+            BufferedReader brResultMaster = new BufferedReader(frResultMaster);
+            
+            FileReader frResultBit = new FileReader(bit);
+            BufferedReader brResultBit = new BufferedReader(frResultBit);
+
+            String line;
+            List<String> masterData = new ArrayList<String>();
+
+            //Add users from master to list
+            while((line = brResultMaster.readLine()) != null){
+                masterData.add(line);
+            }
+            
+            String lastUser = "";
+            //Add users from binnacle to list
+            while((line = brResultBit.readLine()) != null){
+                //Verify if status is 1
+                String[] arr = line.split("\\|");
+                if (arr[9].contains("1")) {
+                     masterData.add(line);
+                     lastUser = arr[0];
+                }      
+            }
+            
+            //Create new list with all data and sort it
+            List<String> newMasterData = masterData.stream().sorted().collect(Collectors.toList());
+            
+            String masterContent = "";
+            
+            for (String data :newMasterData) {
+                masterContent += data + "\n";
+            }
+            
+            //Write data on master
+            FileWriter fwMaster = new FileWriter(master);
+            BufferedWriter bwMaster = new BufferedWriter(fwMaster);
+            bwMaster.write(masterContent);
+            
+            brResultMaster.close();
+            brResultBit.close();
+            bwMaster.close();            
+                        
+            //Update master descriptor
+            updateDesc(master, descMaster, lastUser);
+            
+            //Delete data from binnacle
+            FileWriter fwBit = new FileWriter(bit);
+            BufferedWriter bwBit = new BufferedWriter(fwBit);
+            bwBit.write("");
+            
+            bwBit.close();
+                
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                }   
+    }
+    
     /**
      * @param args the command line arguments
      */
