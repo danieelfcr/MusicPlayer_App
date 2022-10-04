@@ -62,6 +62,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         JTFPhoneNumber = new javax.swing.JTextField();
         JDCBirthDate = new com.toedter.calendar.JDateChooser();
+        JBBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +104,13 @@ public class RegisterFrame extends javax.swing.JFrame {
 
         JDCBirthDate.setDateFormatString("dd/MM/yyyy");
 
+        JBBack.setText("Back to login");
+        JBBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,7 +146,9 @@ public class RegisterFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(547, 547, 547)
+                        .addGap(66, 66, 66)
+                        .addComponent(JBBack)
+                        .addGap(312, 312, 312)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(493, 493, 493)
@@ -148,9 +158,11 @@ public class RegisterFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(jLabel1)
-                .addGap(96, 96, 96)
+                .addGap(61, 61, 61)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(JBBack))
+                .addGap(89, 89, 89)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -196,7 +208,7 @@ public class RegisterFrame extends javax.swing.JFrame {
 
     private void JBRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRegisterActionPerformed
         //Fields
-        String username = JTFUsername.getText();
+        String username = JTFUsername.getText().toLowerCase();
         String name = JTFName.getText();
         String lastname = JTFLastName.getText();
         String password = JTFPassword.getText();
@@ -250,7 +262,11 @@ public class RegisterFrame extends javax.swing.JFrame {
                                     addUserToBit(username, name, lastname, password, role, birthDate, email, phoneNumber, photoPath, status, bitUsersFile, descBitUsersFile);
                                 }
 
+                                //Invoke login form
                                 showMessageDialog(null, "Your user has been successfully created. Please, enter your credentials to continue.");
+                                LoginFrame myFrame = new LoginFrame();
+                                myFrame.setVisible(true);
+                                dispose();
                             }
                             else
                             {
@@ -301,6 +317,12 @@ public class RegisterFrame extends javax.swing.JFrame {
             JTFPhotoPath.setText(imagePath);  
         }
     }//GEN-LAST:event_JBPhotoActionPerformed
+
+    private void JBBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBackActionPerformed
+        LoginFrame myFrame = new LoginFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_JBBackActionPerformed
 
     public static boolean isNumeric(String str) 
     { 
@@ -808,6 +830,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBBack;
     private javax.swing.JButton JBPhoto;
     private javax.swing.JButton JBRegister;
     private com.toedter.calendar.JDateChooser JDCBirthDate;

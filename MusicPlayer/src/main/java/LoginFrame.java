@@ -1,3 +1,12 @@
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -29,7 +38,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTFUsername = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        jPFPassword = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         JBLogin = new javax.swing.JButton();
         JBRegisterForm = new javax.swing.JButton();
@@ -43,11 +52,16 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Password");
 
-        jPasswordField1.setText("jPasswordField1");
+        jPFPassword.setText("jPasswordField1");
 
         jLabel4.setText("Don´t have an account?");
 
         JBLogin.setText("Login");
+        JBLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBLoginActionPerformed(evt);
+            }
+        });
 
         JBRegisterForm.setText("Register here");
         JBRegisterForm.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +84,7 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addGap(122, 122, 122)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPFPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGap(190, 190, 190)
                             .addComponent(JBLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -99,7 +113,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPFPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(JBLogin)
                 .addGap(70, 70, 70)
@@ -119,6 +133,152 @@ public class LoginFrame extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_JBRegisterFormActionPerformed
 
+    private void JBLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBLoginActionPerformed
+        String username = jTFUsername.getText().toLowerCase();
+        String password = RegisterFrame.getMD5(jPFPassword.getText());
+        
+        if (userMatches(username, password)) {
+            JOptionPane.showMessageDialog(null, "¡Bienvenido " + username + "!" );
+            if (isAdmin(username)) {
+                 JOptionPane.showMessageDialog(null, "admin" );
+                AdminFrame myFrame = new AdminFrame();
+                myFrame.setVisible(true);
+                dispose();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "user" );
+                UserFrame myFrame = new UserFrame();
+                myFrame.setVisible(true);
+                dispose();
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Acceso denegado: tus credenciales no coinciden.");
+        }
+    }//GEN-LAST:event_JBLoginActionPerformed
+
+    public boolean userMatches(String user, String password)
+    {
+        String usersFilePath = "C:\\MEIA\\usuario.txt";
+        String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
+        
+        File usersFile = new File(usersFilePath);
+        File bitUsersFile = new File(bitUsersFilePath);
+        
+        try
+        {
+            FileReader frUsers = new FileReader(usersFilePath);
+            BufferedReader brUsers = new BufferedReader(frUsers);
+            
+            FileReader frBitUsers = new FileReader(bitUsersFilePath);
+            BufferedReader brBitUsers = new BufferedReader(frBitUsers);
+            
+            List<String> users = new ArrayList<String>();
+            List<String> passwords = new ArrayList<String>();
+            String linea = "";
+            
+            if (bitUsersFile.exists()) {
+                while((linea = brBitUsers.readLine()) != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    users.add(arr[0]);
+                    passwords.add(arr[3]);
+                }
+            }
+            
+            if (usersFile.exists()) {
+                while((linea = brUsers.readLine()) != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    users.add(arr[0]);
+                    passwords.add(arr[3]);
+                }
+            }
+            
+            String [] arrUsers = new String[users.size()];
+            arrUsers = users.toArray(arrUsers);
+            int pos = Search(arrUsers, user);
+            
+            if (pos != -1) {
+               String[] arrPass = passwords.toArray(new String[0]);
+                if (arrPass[pos].equals(password)) {
+                    brUsers.close();
+                    brBitUsers.close();
+                    return true;
+                }
+            }
+            brUsers.close();
+            brBitUsers.close();
+           return false;
+        } catch (IOException ex) {
+        JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+        return false;
+    }
+    }
+    
+    public int Search(String[] arr, String x)
+    {
+        
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(x)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public boolean isAdmin(String user)
+    {
+        String usersFilePath = "C:\\MEIA\\usuario.txt";
+        String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
+        
+        File usersFile = new File(usersFilePath);
+        File bitUsersFile = new File(bitUsersFilePath);
+        
+        try
+        {
+            FileReader frUsers = new FileReader(usersFilePath);
+            BufferedReader brUsers = new BufferedReader(frUsers);
+            
+            FileReader frBitUsers = new FileReader(bitUsersFilePath);
+            BufferedReader brBitUsers = new BufferedReader(frBitUsers);
+
+            String linea = "";
+            
+            if (bitUsersFile.exists()) {
+                while((linea = brBitUsers.readLine()) != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    if (arr[0].equals(user)) {
+                        if (arr[4].equals("1")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            if (usersFile.exists()) {
+                while((linea = brUsers.readLine()) != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    if (arr[0].equals(user)) {
+                        if (arr[4].equals("1")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            brUsers.close();
+            brBitUsers.close();
+           return false;
+           
+        } catch (IOException ex) {
+        JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+        return false;
+    }
+    }
     /**
      * @param args the command line arguments
      */
@@ -161,7 +321,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPFPassword;
     private javax.swing.JTextField jTFUsername;
     // End of variables declaration//GEN-END:variables
 }
