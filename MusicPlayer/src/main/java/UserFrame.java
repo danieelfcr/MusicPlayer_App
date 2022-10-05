@@ -252,7 +252,22 @@ public class UserFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JBDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBDeleteActionPerformed
-        // TODO add your handling code here:
+        String usersFilePath = "C:\\MEIA\\usuario.txt";
+        String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
+        String descUsersFilePath = "C:\\MEIA\\desc_usuario.txt";
+        String descBitUsersFilePath = "C:\\MEIA\\desc_bitacora_usuario.txt";
+
+        File usersFile = new File(usersFilePath);
+        File bitUsersFile = new File(bitUsersFilePath);
+        File descUsersFile = new File(descUsersFilePath);
+        File descBitUsersFile = new File(descBitUsersFilePath); 
+        
+        Data usr = Data.Instance(Data.getUser(), Data.getName(), Data.getLastName(), Data.getPassword(), Data.getRole(), Data.getBirthDate(), Data.getEmail(), Data.getPhone(), Data.getPhotoPath(), "0");
+        updateUser(Data.getPassword(), Data.getEmail(), Data.getPhone(), Data.getPhotoPath(), Data.getBirthDate(), usersFile, bitUsersFile, descUsersFile, descBitUsersFile);
+        showMessageDialog(null, "Your account has been permantently closed.");
+        LoginFrame myFrame = new LoginFrame();
+                myFrame.setVisible(true);
+                dispose();
     }//GEN-LAST:event_JBDeleteActionPerformed
 
     private void JBChangeInfo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBChangeInfo1ActionPerformed
@@ -414,7 +429,7 @@ public class UserFrame extends javax.swing.JFrame {
                     RegisterFrame.updateDesc(master, descMaster, user);
                 }
                 
-                
+                Data usr = Data.Instance(user, name, lastname, newPassword, role, newBirthDate, newEmail, newPhone, newPhoto, status);
             }
        catch(IOException ex)
                 {
