@@ -139,15 +139,16 @@ public class LoginFrame extends javax.swing.JFrame {
         
         if (userMatches(username, password)) {
             JOptionPane.showMessageDialog(null, "¡Bienvenido " + username + "!" );
-            if (isAdmin(username)) {
-                 JOptionPane.showMessageDialog(null, "admin" );
+            String [] userInformation = new String[10];
+            if (isAdmin(username, userInformation)) {
+                Data usr = Data.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
                 AdminFrame myFrame = new AdminFrame();
                 myFrame.setVisible(true);
                 dispose();
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "user" );
+                Data usr = Data.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
                 UserFrame myFrame = new UserFrame();
                 myFrame.setVisible(true);
                 dispose();
@@ -179,7 +180,7 @@ public class LoginFrame extends javax.swing.JFrame {
             String linea = "";
             
             if (bitUsersFile.exists()) {
-                while((linea = brBitUsers.readLine()) != null)
+                while(!"".equals(linea = brBitUsers.readLine()) && linea != null)
                 {
                     String arr [] = linea.split("\\|");
                     users.add(arr[0]);
@@ -188,7 +189,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
             
             if (usersFile.exists()) {
-                while((linea = brUsers.readLine()) != null)
+                while(!"".equals(linea = brUsers.readLine()) && linea != null)
                 {
                     String arr [] = linea.split("\\|");
                     users.add(arr[0]);
@@ -228,7 +229,7 @@ public class LoginFrame extends javax.swing.JFrame {
         return -1;
     }
     
-    public boolean isAdmin(String user)
+    public boolean isAdmin(String user, String [] userInformation)
     {
         String usersFilePath = "C:\\MEIA\\usuario.txt";
         String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
@@ -247,10 +248,12 @@ public class LoginFrame extends javax.swing.JFrame {
             String linea = "";
             
             if (bitUsersFile.exists()) {
-                while((linea = brBitUsers.readLine()) != null)
+                while(!"".equals(linea = brBitUsers.readLine()) && linea != null)
                 {
                     String arr [] = linea.split("\\|");
+                    
                     if (arr[0].equals(user)) {
+                        setInformation(arr, userInformation);
                         if (arr[4].equals("1")) {
                             return true;
                         }
@@ -259,10 +262,12 @@ public class LoginFrame extends javax.swing.JFrame {
             }
             
             if (usersFile.exists()) {
-                while((linea = brUsers.readLine()) != null)
+                while(!"".equals(linea = brUsers.readLine())&& linea != null)
                 {
                     String arr [] = linea.split("\\|");
+                    
                     if (arr[0].equals(user)) {
+                        setInformation(arr, userInformation);
                         if (arr[4].equals("1")) {
                             return true;
                         }
@@ -277,8 +282,16 @@ public class LoginFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
         JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
         return false;
+    }   
     }
-    }
+    
+     public void setInformation(String[] arr, String[] userInformation)
+        {
+            for (int i = 0; i < 10; i++) {
+                userInformation[i] = arr[i];
+            }
+        }
+     
     /**
      * @param args the command line arguments
      */

@@ -19,7 +19,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.stream.Collectors;
 /**
  *
@@ -214,9 +216,12 @@ public class RegisterFrame extends javax.swing.JFrame {
         String password = JTFPassword.getText();
         String email = JTFEmail.getText();
         String phoneNumber = JTFPhoneNumber.getText();
-        String birthDate = JDCBirthDate.getDateFormatString();
         String photoPath = JTFPhotoPath.getText();
         int role = 0, status = 1;
+        
+       SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+       Date date = JDCBirthDate.getDate();
+       String birthDate = dateFormat.format(date);
         
         if (username.length() != 0 && name.length() != 0 && lastname.length() != 0 && password.length() != 0 && email.length() != 0  && birthDate.length() == 10){
             if (phoneNumber.length() == 8 && isNumeric(phoneNumber)) {
@@ -333,7 +338,7 @@ public class RegisterFrame extends javax.swing.JFrame {
             return false;  
           }  
     }    
-    public boolean passSecurityLevel(String password)
+    public static boolean passSecurityLevel(String password)
     {
         try{
          
@@ -381,7 +386,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                     return false;
                 }
     }    
-     public int punctuation(String[] punArr, String pass)
+     public static int punctuation(String[] punArr, String pass)
     {
         int punc = 0;
         //Beginning in 0 because line number 1 isnt in array (it has already been read)
@@ -403,7 +408,7 @@ public class RegisterFrame extends javax.swing.JFrame {
        
         return punc;
     }   
-    public boolean result(String[] resArr, int punc)
+    public static boolean result(String[] resArr, int punc)
     {
         String res = "";
         boolean isSecure = false;
@@ -428,7 +433,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, res);
         return isSecure;
     }    
-    private int countUpperCase(String string)
+    private static int countUpperCase(String string)
     {
         int count = 0;
         char[] charArr = string.toCharArray();
@@ -439,7 +444,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         }
         return count;
     }
-    private int countNumbers(String string)
+    private static int countNumbers(String string)
     {
         int count = 0;
         char[] charArr = string.toCharArray();
@@ -452,7 +457,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         }
         return count;
     }
-    private int countLetters(String string)
+    private static int countLetters(String string)
     {
         int count = 0;
         char[] charArr = string.toCharArray();
@@ -463,7 +468,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         }
         return count;
     }
-    private int countSymbols(String string)
+    private static int countSymbols(String string)
     {
         int count = 0;
         char[] charArr = string.toCharArray();
@@ -475,7 +480,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         }
         return count;
     }
-    private String joinStrings(String[] resultadoArr)
+    private static String joinStrings(String[] resultadoArr)
     {
         
          return resultadoArr[0] + "," + resultadoArr[1] + "," + resultadoArr[2] + "," + resultadoArr[3];
@@ -567,7 +572,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     public void addUserToBit(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file, File desc)
     {
          try{
-            String data = user + "|" + name + "|" + lastname + "|" + pass + "|" + role + "|" + birthDate + "|" + email + "|" + phone + "|" + imagePath + "|" + status + "\n";
+            String data = user + "|" + name + "|" + lastname + "|" + pass + "|" + role + "|" + birthDate + "|" + email + "|" + phone + "|" + imagePath + "|" + status;
         
             FileWriter fw = new FileWriter(file, true);
             BufferedWriter bw = new BufferedWriter(fw);
