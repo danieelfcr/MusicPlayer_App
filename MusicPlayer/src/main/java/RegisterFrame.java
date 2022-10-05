@@ -502,7 +502,7 @@ public class RegisterFrame extends javax.swing.JFrame {
              throw new RuntimeException(e);
          }
      }
-    public String getDate()
+    public static String getDate()
     {
         LocalDateTime localDate = LocalDateTime.now();
         int day = localDate.getDayOfMonth();
@@ -585,7 +585,7 @@ public class RegisterFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    public void updateDesc(File bit, File desc, String user)
+    public static void updateDesc(File bit, File desc, String user)
     {
         try
         {
@@ -627,7 +627,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
                 }  
     }
-    public int countUsers(File file)
+    public static int countUsers(File file)
     {
         try
         {
@@ -648,7 +648,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                     return -1;
                 }  
     }
-    public int countActive(File file)
+    public static int countActive(File file)
     {
         try
         {
@@ -672,7 +672,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                     return -1;
                 }  
     }
-    public int countInactive(File file)
+    public static int countInactive(File file)
     {
         try
         {

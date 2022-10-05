@@ -311,35 +311,40 @@ public class UserFrame extends javax.swing.JFrame {
                         
                         String usersFilePath = "C:\\MEIA\\usuario.txt";
                         String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
+                        String descUsersFilePath = "C:\\MEIA\\desc_usuario.txt";
+                        String descBitUsersFilePath = "C:\\MEIA\\desc_bitacora_usuario.txt";
 
                         File usersFile = new File(usersFilePath);
                         File bitUsersFile = new File(bitUsersFilePath);
+                        File descUsersFile = new File(descUsersFilePath);
+                        File descBitUsersFile = new File(descBitUsersFilePath); 
                         
-                        updateUser(newPassword, newEmail, newPhone, newPhoto, newBirthDate, usersFile, bitUsersFile);
+                        updateUser(newPassword, newEmail, newPhone, newPhoto, newBirthDate, usersFile, bitUsersFile, descUsersFile, descBitUsersFile);
+                        showMessageDialog(null, "Your personal information was modified.");
                     }
                     else
                     {
-                        showMessageDialog(null, "Register Failed: Your password is not secure, try with another password.");
+                        showMessageDialog(null, "Data Modification Failed: Your password is not secure, try with another password.");
                     }
                 }
                 else
                 {
-                    showMessageDialog(null, "Register Failed: Your email is not valid.");
+                    showMessageDialog(null, "Data Modification Failed: Your email is not valid.");
                 }
             }
             else
             {
-                showMessageDialog(null, "Register Failed: Your phone number is not valid.");
+                showMessageDialog(null, "Data Modification Failed: Your phone number is not valid.");
             }
         } 
        else
             {
-                showMessageDialog(null, "Register Failed: Some fields are empty or in the wrong format.");
+                showMessageDialog(null, "Data Modification Failed: Some fields are empty or in the wrong format.");
             } 
         
     }
     
-    public void updateUser(String newPassword, String newEmail, String newPhone, String newPhoto, String newBirthDate, File master, File bit)
+    public void updateUser(String newPassword, String newEmail, String newPhone, String newPhoto, String newBirthDate, File master, File bit, File descMaster, File descBit)
     {
         String user = Data.getUser(), name = Data.getName(), lastname = Data.getLastName();
         String role = Data.getRole(),  status = Data.getStatus();
@@ -393,6 +398,7 @@ public class UserFrame extends javax.swing.JFrame {
                     BufferedWriter bwbit = new BufferedWriter(fwbit);
                     bwbit.write(content);
                     bwbit.close();
+                    RegisterFrame.updateDesc(bit, descBit, user);
                 }
                 else 
                 {
@@ -405,6 +411,7 @@ public class UserFrame extends javax.swing.JFrame {
                     BufferedWriter bwmaster = new BufferedWriter(fwmaster);
                     bwmaster.write(content);
                     bwmaster.close();
+                    RegisterFrame.updateDesc(master, descMaster, user);
                 }
                 
                 
