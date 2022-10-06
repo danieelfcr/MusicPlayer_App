@@ -1,3 +1,6 @@
+
+import static javax.swing.JOptionPane.showMessageDialog;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -25,21 +28,175 @@ public class AdminFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblRole = new javax.swing.JLabel();
+        JBRegister = new javax.swing.JButton();
+        JBSearch = new javax.swing.JButton();
+        btnLogOut = new javax.swing.JButton();
+        JBRefresh = new javax.swing.JButton();
+        jlblClose = new javax.swing.JLabel();
+        JBBackup = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel4.setText("Username:");
+
+        jLabel10.setText("Role:");
+
+        lblUsername.setText(" ");
+
+        jLabel1.setText("Welcome, admin!");
+
+        jLabel2.setText("Here you can change your personal information or others'.");
+
+        lblRole.setText(" ");
+
+        JBRegister.setText("Register a new user");
+        JBRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBRegisterActionPerformed(evt);
+            }
+        });
+
+        JBSearch.setText("Search and modify an existing user");
+        JBSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBSearchActionPerformed(evt);
+            }
+        });
+
+        btnLogOut.setText("Log Out");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
+
+        JBRefresh.setText("Refresh");
+        JBRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBRefreshActionPerformed(evt);
+            }
+        });
+
+        jlblClose.setBackground(new java.awt.Color(74, 31, 61));
+        jlblClose.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlblClose.setText("X");
+        jlblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblCloseMouseClicked(evt);
+            }
+        });
+
+        JBBackup.setText("Create backup");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(119, 119, 119)
+                        .addComponent(btnLogOut))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(266, 266, 266)
+                                .addComponent(jLabel10))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(lblUsername)
+                                .addGap(263, 263, 263)
+                                .addComponent(lblRole)))))
+                .addContainerGap(407, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(339, 339, 339)
+                        .addComponent(JBRefresh))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(325, 325, 325)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(JBSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(JBRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(JBBackup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel10))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsername)
+                    .addComponent(lblRole))
+                .addGap(51, 51, 51)
+                .addComponent(JBRegister)
+                .addGap(66, 66, 66)
+                .addComponent(JBSearch)
+                .addGap(54, 54, 54)
+                .addComponent(JBBackup)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLogOut)
+                    .addComponent(JBRefresh))
+                .addGap(101, 101, 101))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void JBSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSearchActionPerformed
+        AdminSearchFrame myFrame = new AdminSearchFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_JBSearchActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        showMessageDialog(null, "Logging out...");
+        LoginFrame myFrame = new LoginFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void JBRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRefreshActionPerformed
+        lblUsername.setText(AdminData.getUser());
+        lblRole.setText("Admin");
+    }//GEN-LAST:event_JBRefreshActionPerformed
+
+    private void JBRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRegisterActionPerformed
+        AdminRegisterFrame myFrame = new AdminRegisterFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_JBRegisterActionPerformed
+
+    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
+        LoginFrame.filesReorganization();
+        System.exit(0);
+    }//GEN-LAST:event_jlblCloseMouseClicked
 
     /**
      * @param args the command line arguments
@@ -77,5 +234,17 @@ public class AdminFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBBackup;
+    private javax.swing.JButton JBRefresh;
+    private javax.swing.JButton JBRegister;
+    private javax.swing.JButton JBSearch;
+    private javax.swing.JButton btnLogOut;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jlblClose;
+    private javax.swing.JLabel lblRole;
+    private javax.swing.JLabel lblUsername;
     // End of variables declaration//GEN-END:variables
 }

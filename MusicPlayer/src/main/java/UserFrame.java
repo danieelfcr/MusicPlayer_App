@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -66,6 +67,7 @@ public class UserFrame extends javax.swing.JFrame {
         btnRefresh = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         icon = new javax.swing.JLabel();
+        jlblClose = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,6 +126,15 @@ public class UserFrame extends javax.swing.JFrame {
         btnLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogOutActionPerformed(evt);
+            }
+        });
+
+        jlblClose.setBackground(new java.awt.Color(74, 31, 61));
+        jlblClose.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlblClose.setText("X");
+        jlblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblCloseMouseClicked(evt);
             }
         });
 
@@ -193,11 +204,15 @@ public class UserFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(232, 232, 232))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -314,6 +329,11 @@ public class UserFrame extends javax.swing.JFrame {
                 dispose();
     }//GEN-LAST:event_btnLogOutActionPerformed
 
+    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
+        LoginFrame.filesReorganization();
+        System.exit(0);
+    }//GEN-LAST:event_jlblCloseMouseClicked
+
     public void validateUser(String newPassword, String newEmail, String newPhone, String newPhoto, String newBirthDate)
     {
        
@@ -359,7 +379,7 @@ public class UserFrame extends javax.swing.JFrame {
         
     }
     
-    public void updateUser(String newPassword, String newEmail, String newPhone, String newPhoto, String newBirthDate, File master, File bit, File descMaster, File descBit)
+    public static void updateUser(String newPassword, String newEmail, String newPhone, String newPhoto, String newBirthDate, File master, File bit, File descMaster, File descBit)
     {
         String user = Data.getUser(), name = Data.getName(), lastname = Data.getLastName();
         String role = Data.getRole(),  status = Data.getStatus();
@@ -406,6 +426,7 @@ public class UserFrame extends javax.swing.JFrame {
                 if (flag) {                  
                     list.set(auxpos, data);
 
+                    list.stream().sorted().collect(Collectors.toList());  
                     for (String x :list) {
                          content += x + "\n";
                     }
@@ -418,7 +439,8 @@ public class UserFrame extends javax.swing.JFrame {
                 else 
                 {
                     list.set(auxpos, data);
-
+                    
+                    list.stream().sorted().collect(Collectors.toList());     
                     for (String x :list) {
                          content += x + "\n";
                     }
@@ -496,6 +518,7 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jlblClose;
     private javax.swing.JLabel lblRole;
     private javax.swing.JLabel lblUsername;
     // End of variables declaration//GEN-END:variables

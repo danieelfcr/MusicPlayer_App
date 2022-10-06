@@ -65,6 +65,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         JTFPhoneNumber = new javax.swing.JTextField();
         JDCBirthDate = new com.toedter.calendar.JDateChooser();
         JBBack = new javax.swing.JButton();
+        jlblClose = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,6 +114,15 @@ public class RegisterFrame extends javax.swing.JFrame {
             }
         });
 
+        jlblClose.setBackground(new java.awt.Color(74, 31, 61));
+        jlblClose.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlblClose.setText("X");
+        jlblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblCloseMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -156,11 +166,15 @@ public class RegisterFrame extends javax.swing.JFrame {
                         .addGap(493, 493, 493)
                         .addComponent(JBRegister)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(JBBack))
@@ -328,6 +342,11 @@ public class RegisterFrame extends javax.swing.JFrame {
         myFrame.setVisible(true);
         dispose();
     }//GEN-LAST:event_JBBackActionPerformed
+
+    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
+        LoginFrame.filesReorganization();
+        System.exit(0);
+    }//GEN-LAST:event_jlblCloseMouseClicked
 
     public static boolean isNumeric(String str) 
     { 
@@ -515,7 +534,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         
         return day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
     }
-    public void createDesc(File file, String username)
+    public static void createDesc(File file, String username)
     {
         try{
         String descContent = "nombre_simbolico: " + file.getName()
@@ -537,7 +556,7 @@ public class RegisterFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    public int MaxReorg(File file)
+    public static int MaxReorg(File file)
     {
         try
         {
@@ -563,13 +582,13 @@ public class RegisterFrame extends javax.swing.JFrame {
                     return -1;
                 }  
     }
-    public boolean isMaxReorg(File bit, File desc)
+    public static boolean isMaxReorg(File bit, File desc)
     {
        int count = countUsers(bit);          
        return count>=MaxReorg(desc);        
  
     }
-    public void addUserToBit(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file, File desc)
+    public static void addUserToBit(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file, File desc)
     {
          try{
             String data = user + "|" + name + "|" + lastname + "|" + pass + "|" + role + "|" + birthDate + "|" + email + "|" + phone + "|" + imagePath + "|" + status;
@@ -696,7 +715,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                     return -1;
                 }  
     }
-    public void addUser(File master, File bit, File descMaster, File descBit)
+    public static void addUser(File master, File bit, File descMaster, File descBit)
     {
        try
         {
@@ -759,7 +778,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
                 }   
     }
-    public boolean userExists(File master, File bit, String user)
+    public static boolean userExists(File master, File bit, String user)
     {
         try
         {
@@ -855,5 +874,6 @@ public class RegisterFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jlblClose;
     // End of variables declaration//GEN-END:variables
 }

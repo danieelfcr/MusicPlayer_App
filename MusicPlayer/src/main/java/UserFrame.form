@@ -105,12 +105,17 @@
               <Component id="icon" min="-2" pref="193" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="232" max="-2" attributes="0"/>
           </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Component id="jlblClose" min="-2" pref="20" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+              <Component id="jlblClose" min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -291,6 +296,20 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="icon">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jlblClose">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="3d" green="1f" red="4a" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="24" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="X"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jlblCloseMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

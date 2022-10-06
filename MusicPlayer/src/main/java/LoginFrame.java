@@ -1,11 +1,15 @@
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -42,6 +46,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         JBLogin = new javax.swing.JButton();
         JBRegisterForm = new javax.swing.JButton();
+        jlblClose = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setForeground(java.awt.Color.darkGray);
@@ -51,8 +56,6 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel2.setText("Username");
 
         jLabel3.setText("Password");
-
-        jPFPassword.setText("jPasswordField1");
 
         jLabel4.setText("Don´t have an account?");
 
@@ -70,41 +73,57 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        jlblClose.setBackground(new java.awt.Color(74, 31, 61));
+        jlblClose.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlblClose.setText("X");
+        jlblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblCloseMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(303, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(267, 267, 267)
-                            .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(122, 122, 122)
-                            .addComponent(jPFPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGap(190, 190, 190)
-                            .addComponent(JBLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(219, 219, 219)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(115, 115, 115)
-                        .addComponent(jTFUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(234, 234, 234))
             .addGroup(layout.createSequentialGroup()
                 .addGap(318, 318, 318)
                 .addComponent(jLabel4)
                 .addGap(32, 32, 32)
                 .addComponent(JBRegisterForm, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(303, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(267, 267, 267)
+                                    .addComponent(jLabel1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(122, 122, 122)
+                                    .addComponent(jPFPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGap(190, 190, 190)
+                                    .addComponent(JBLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(219, 219, 219)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(115, 115, 115)
+                                .addComponent(jTFUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(234, 234, 234))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addContainerGap()
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(136, 136, 136)
                 .addComponent(jLabel1)
                 .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -141,7 +160,7 @@ public class LoginFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "¡Bienvenido " + username + "!" );
             String [] userInformation = new String[10];
             if (isAdmin(username, userInformation)) {
-                Data usr = Data.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
+                AdminData usr = AdminData.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
                 AdminFrame myFrame = new AdminFrame();
                 myFrame.setVisible(true);
                 dispose();
@@ -158,6 +177,11 @@ public class LoginFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Acceso denegado: tus credenciales no coinciden.");
         }
     }//GEN-LAST:event_JBLoginActionPerformed
+
+    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
+        filesReorganization();
+        System.exit(0);
+    }//GEN-LAST:event_jlblCloseMouseClicked
 
     public boolean userMatches(String user, String password)
     {
@@ -292,6 +316,81 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         }
      
+     public static void filesReorganization()
+     {
+            String usersFilePath = "C:\\MEIA\\usuario.txt";
+            String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
+            String descUsersFilePath = "C:\\MEIA\\desc_usuario.txt";
+            String descBitUsersFilePath = "C:\\MEIA\\desc_bitacora_usuario.txt";
+
+            File usersFile = new File(usersFilePath);
+            File bitUsersFile = new File(bitUsersFilePath);
+
+            File descUsersFile = new File(descUsersFilePath);
+            File descBitUsersFile = new File(descBitUsersFilePath);
+
+            try{
+                if (usersFile.exists() && bitUsersFile.exists()) {
+                    FileReader frResult = new FileReader(usersFile);
+                    BufferedReader brResult = new BufferedReader(frResult);
+
+                    FileReader frResultBit = new FileReader(bitUsersFile);
+                    BufferedReader brResultBit = new BufferedReader(frResultBit);
+
+                    List<String> masterUsers = new ArrayList<String>();
+                    List<String> bitUsers = new ArrayList<String>();
+                    String line = "";
+                    
+                    //Read each line of both files, if status is 1, add to specific list
+                    while(!"".equals(line = brResult.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[9].equals("1")) {
+                            masterUsers.add(line);
+                        }
+                    }
+                    while(!"".equals(line = brResultBit.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[9].equals("1")) {
+                            bitUsers.add(line);
+                        }
+                    }
+                    
+                    //For each information on bitUsers list, add it to masterUsers list
+                    for (String info :bitUsers) {
+                        masterUsers.add(info);
+                    }
+                    //Sort list
+                    masterUsers.stream().sorted().collect(Collectors.toList());  
+                    
+                    //Write on master file
+                    FileWriter fwMaster = new FileWriter(usersFile, false);
+                    BufferedWriter bwMaster = new BufferedWriter(fwMaster);
+                    
+                    String content ="";
+                    for (String info :masterUsers) {
+                        content += info + "\n";
+                    }
+                    
+                    bwMaster.write(content);
+                    bwMaster.close();
+                    RegisterFrame.updateDesc(usersFile, descUsersFile, "admin");
+                    
+                    //Clear binnacle
+                    FileWriter fwBit = new FileWriter(bitUsersFile, false);
+                    BufferedWriter bwBit = new BufferedWriter(fwBit);
+                    
+                    bwBit.write("");
+                    bwBit.close();
+                    RegisterFrame.updateDesc(bitUsersFile, descBitUsersFile, "admin");
+                    
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+     }
     /**
      * @param args the command line arguments
      */
@@ -336,5 +435,6 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jPFPassword;
     private javax.swing.JTextField jTFUsername;
+    private javax.swing.JLabel jlblClose;
     // End of variables declaration//GEN-END:variables
 }
