@@ -326,10 +326,12 @@ public class AdminSearchFrame extends javax.swing.JFrame {
                         File bitUsersFile = new File(bitUsersFilePath);
                         File descUsersFile = new File(descUsersFilePath);
                         File descBitUsersFile = new File(descBitUsersFilePath);
-
+                        
                         Data usr = Data.Instance(username, name, lastname, password, String.valueOf(role), birthDate, email, phoneNumber, photoPath, String.valueOf(status));
                         UserFrame.updateUser(password, email, phoneNumber, photoPath, birthDate, usersFile, bitUsersFile, descUsersFile, descBitUsersFile);
-                        showMessageDialog(null, "Your personal information was modified.");
+                        showMessageDialog(null, "User modified");
+
+                                              
                     }
                     else
                     {
@@ -361,6 +363,10 @@ public class AdminSearchFrame extends javax.swing.JFrame {
 
     private void JBSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSearchActionPerformed
         String searchUser = JTFSearch.getText();
+        if (searchUser.equals(AdminData.getUser())) {
+            JTFRole.setEnabled(false);
+            JTFStatus.setEnabled(false);
+        }
         
         if (!"".equals(searchUser)) {
             if (findUser(searchUser)) {

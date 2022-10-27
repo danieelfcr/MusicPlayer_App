@@ -157,21 +157,37 @@ public class LoginFrame extends javax.swing.JFrame {
         String password = RegisterFrame.getMD5(jPFPassword.getText());
         
         if (userMatches(username, password)) {
-            JOptionPane.showMessageDialog(null, "¡Bienvenido " + username + "!" );
+            
             String [] userInformation = new String[10];
             if (isAdmin(username, userInformation)) {
-                AdminData usr = AdminData.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
-                AdminFrame myFrame = new AdminFrame();
-                myFrame.setVisible(true);
-                dispose();
+                if (userInformation[9].contains("1")) {
+                    AdminData usr = AdminData.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
+                    JOptionPane.showMessageDialog(null, "¡Bienvenido " + username + "!" );
+                    AdminFrame myFrame = new AdminFrame();
+                    myFrame.setVisible(true);
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Acceso denegado: usuario ya no existe" );
+                }
+                
             }
             else
             {
+                if (userInformation[9].contains("1")) {
                 Data usr = Data.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
+                JOptionPane.showMessageDialog(null, "¡Bienvenido " + username + "!" );
                 UserFrame myFrame = new UserFrame();
                 myFrame.setVisible(true);
                 dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Acceso denegado: usuario ya no existe" );
+                }
             }
+            
         }
         else{
             JOptionPane.showMessageDialog(null, "Acceso denegado: tus credenciales no coinciden.");

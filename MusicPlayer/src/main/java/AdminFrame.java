@@ -1,5 +1,16 @@
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
+import org.apache.commons.io.FileUtils;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -40,6 +51,7 @@ public class AdminFrame extends javax.swing.JFrame {
         JBRefresh = new javax.swing.JButton();
         jlblClose = new javax.swing.JLabel();
         JBBackup = new javax.swing.JButton();
+        lblBackupRoute = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,6 +105,13 @@ public class AdminFrame extends javax.swing.JFrame {
         });
 
         JBBackup.setText("Create backup");
+        JBBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBBackupActionPerformed(evt);
+            }
+        });
+
+        lblBackupRoute.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,10 +150,12 @@ public class AdminFrame extends javax.swing.JFrame {
                         .addComponent(JBRefresh))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(325, 325, 325)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JBSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(JBRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(JBBackup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBackupRoute)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(JBSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(JBRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(JBBackup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -159,7 +180,9 @@ public class AdminFrame extends javax.swing.JFrame {
                 .addComponent(JBSearch)
                 .addGap(54, 54, 54)
                 .addComponent(JBBackup)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lblBackupRoute)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogOut)
                     .addComponent(JBRefresh))
@@ -198,6 +221,128 @@ public class AdminFrame extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jlblCloseMouseClicked
 
+    private void JBBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBackupActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        String BackUpPath;
+        String creationDate = "";
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        // disable the "All files" option.
+        chooser.setAcceptAllFileFilterUsed(false);
+        //
+        File dir;
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+            dir = chooser.getSelectedFile();
+            
+            String source = "C://MEIA";
+            File srcDir = new File(source);
+            
+            try {
+                FileUtils.copyDirectory(srcDir, dir);
+                
+                String bitBackupPath = "C:\\MEIA\\bitacora_backup.txt";
+                String desBitBackupPath = "C:\\MEIA\\desc_bitacora_backup.txt";
+
+                File bitBackup = new File(bitBackupPath);
+                File desBitBackup = new File(desBitBackupPath);
+                
+                if (!bitBackup.exists()) {
+                    bitBackup.createNewFile();
+                    desBitBackup.createNewFile();   
+                    creationDate = RegisterFrame.getDate();
+                }
+                createBit(bitBackup, desBitBackup, dir, creationDate);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+}
+          }
+        else {
+          System.out.println("No Selection.");
+          }
+    }//GEN-LAST:event_JBBackupActionPerformed
+
+    public void createBit(File bit, File desc, File dir, String creationDate)
+    {
+        String bckupPath = dir.getAbsolutePath();
+        String user = AdminData.getUser();
+        String date = RegisterFrame.getDate();
+        
+        
+        List<String> bitInfo = new ArrayList<String>();
+        try
+        {
+        FileReader frResult = new FileReader(bit);
+        BufferedReader brResult = new BufferedReader(frResult);
+
+            String line;
+
+            //Obtain last line
+            while(!"".equals(line = brResult.readLine()) && line != null){
+                bitInfo.add(line);
+            }
+            
+            String lastBckup = bckupPath + "|" + user + "|" + date;
+            bitInfo.add(lastBckup);
+            
+            String content = "";
+            
+            for (String data :bitInfo) {
+            content += data + "\n";
+        }
+        
+        FileWriter fw = new FileWriter(bit);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(content);
+        bw.close();
+        
+        createDesc(desc, bit, creationDate);
+        } catch(IOException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+        }
+    }
+    
+    public void createDesc(File desc, File bit, String creationDate)
+    {
+        String content = "nombre_simbolico: bitacora_backup.txt\n" + "fecha_creacion: " + creationDate + "\n" +
+                "usuario_creacion: " + AdminData.getUser() + "\n" + "fecha_modificacion: " + RegisterFrame.getDate() + "\n" + 
+                "usuario_modificacion: " + AdminData.getUser() + "\n" + "#_registros: " + countRegisters(bit);
+        try
+        {
+            FileWriter fw = new FileWriter(desc);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(content);
+            bw.close();
+        } catch(IOException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+        }
+    }
+    
+    public int countRegisters(File bit)
+    {
+        int count = 0;
+        try
+        {
+        FileReader frResult = new FileReader(bit);
+        BufferedReader brResult = new BufferedReader(frResult);
+
+            String line;
+
+            //Obtain last line
+            while(!"".equals(line = brResult.readLine()) && line != null){
+                count++;
+            }
+            return count;
+        }
+        catch(IOException ex){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+            return -1;
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -244,6 +389,7 @@ public class AdminFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jlblClose;
+    private javax.swing.JLabel lblBackupRoute;
     private javax.swing.JLabel lblRole;
     private javax.swing.JLabel lblUsername;
     // End of variables declaration//GEN-END:variables

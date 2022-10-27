@@ -330,10 +330,12 @@ public class RegisterFrame extends javax.swing.JFrame {
         int valor = dialogue.showOpenDialog(this);
 
         if (valor == JFileChooser.APPROVE_OPTION) {
-            imageFile = dialogue.getSelectedFile();
+            imageFile = dialogue.getSelectedFile();           
+            
             imagePath = imageFile.getPath();
-                 
-            JTFPhotoPath.setText(imagePath);  
+            File newImage = new File(imagePath);
+            newImage.renameTo(new File("C:/MEIA/IMAGENES/"+JTFUsername.getText()+".jpg"));
+            JTFPhotoPath.setText(newImage.getAbsolutePath());  
         }
     }//GEN-LAST:event_JBPhotoActionPerformed
 
@@ -595,7 +597,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         
             FileWriter fw = new FileWriter(file, true);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.append(data);
+            bw.append(data+"\n");
             bw.close();
             
             updateDesc(file, desc, user);
