@@ -251,7 +251,7 @@ public class AdminFrame extends javax.swing.JFrame {
                     desBitBackup.createNewFile();   
                     creationDate = RegisterFrame.getDate();
                 }
-                createBit(bitBackup, desBitBackup, dir, creationDate);
+                Backup.createBackupBit(bitBackup, desBitBackup, dir, creationDate);
 
 
             } catch (IOException e) {
@@ -263,85 +263,7 @@ public class AdminFrame extends javax.swing.JFrame {
           }
     }//GEN-LAST:event_JBBackupActionPerformed
 
-    public void createBit(File bit, File desc, File dir, String creationDate)
-    {
-        String bckupPath = dir.getAbsolutePath();
-        String user = AdminData.getUser();
-        String date = RegisterFrame.getDate();
-        
-        
-        List<String> bitInfo = new ArrayList<String>();
-        try
-        {
-        FileReader frResult = new FileReader(bit);
-        BufferedReader brResult = new BufferedReader(frResult);
 
-            String line;
-
-            //Obtain last line
-            while(!"".equals(line = brResult.readLine()) && line != null){
-                bitInfo.add(line);
-            }
-            
-            String lastBckup = bckupPath + "|" + user + "|" + date;
-            bitInfo.add(lastBckup);
-            
-            String content = "";
-            
-            for (String data :bitInfo) {
-            content += data + "\n";
-        }
-        
-        FileWriter fw = new FileWriter(bit);
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(content);
-        bw.close();
-        
-        createDesc(desc, bit, creationDate);
-        } catch(IOException ex)
-        {
-            JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
-        }
-    }
-    
-    public void createDesc(File desc, File bit, String creationDate)
-    {
-        String content = "nombre_simbolico: bitacora_backup.txt\n" + "fecha_creacion: " + creationDate + "\n" +
-                "usuario_creacion: " + AdminData.getUser() + "\n" + "fecha_modificacion: " + RegisterFrame.getDate() + "\n" + 
-                "usuario_modificacion: " + AdminData.getUser() + "\n" + "#_registros: " + countRegisters(bit);
-        try
-        {
-            FileWriter fw = new FileWriter(desc);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(content);
-            bw.close();
-        } catch(IOException ex)
-        {
-            JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
-        }
-    }
-    
-    public int countRegisters(File bit)
-    {
-        int count = 0;
-        try
-        {
-        FileReader frResult = new FileReader(bit);
-        BufferedReader brResult = new BufferedReader(frResult);
-
-            String line;
-
-            //Obtain last line
-            while(!"".equals(line = brResult.readLine()) && line != null){
-                count++;
-            }
-            return count;
-        }
-        catch(IOException ex){
-            JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
-            return -1;
-        }
-    }
     
     /**
      * @param args the command line arguments

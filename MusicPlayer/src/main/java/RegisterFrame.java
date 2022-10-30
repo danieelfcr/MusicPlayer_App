@@ -222,6 +222,38 @@ public class RegisterFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void JBPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBPhotoActionPerformed
+        //Create a JFileChooser, add a filter for images and let the user choose his profile image, setting the path in the textbox.
+        JFileChooser dialogue = new JFileChooser("C:\\MEIA");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Images", "jpg", "png");
+        dialogue.setFileFilter(filter);
+
+        File imageFile;
+        String imagePath;
+
+        int valor = dialogue.showOpenDialog(this);
+
+        if (valor == JFileChooser.APPROVE_OPTION) {
+            imageFile = dialogue.getSelectedFile();
+
+            imagePath = imageFile.getPath();
+            File newImage = new File(imagePath);
+            newImage.renameTo(new File("C:/MEIA/IMAGENES/"+JTFUsername.getText()+".jpg"));
+            JTFPhotoPath.setText(newImage.getAbsolutePath());
+        }
+    }//GEN-LAST:event_JBPhotoActionPerformed
+
+    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
+        LoginFrame.filesReorganization();
+        System.exit(0);
+    }//GEN-LAST:event_jlblCloseMouseClicked
+
+    private void JBBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBackActionPerformed
+        LoginFrame myFrame = new LoginFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_JBBackActionPerformed
+
     private void JBRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBRegisterActionPerformed
         //Fields
         String username = JTFUsername.getText().toLowerCase();
@@ -232,35 +264,34 @@ public class RegisterFrame extends javax.swing.JFrame {
         String phoneNumber = JTFPhoneNumber.getText();
         String photoPath = JTFPhotoPath.getText();
         int role = 0, status = 1;
-        
-       SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-       Date date = JDCBirthDate.getDate();
-       String birthDate = dateFormat.format(date);
-        
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = JDCBirthDate.getDate();
+        String birthDate = dateFormat.format(date);
+
         if (username.length() != 0 && name.length() != 0 && lastname.length() != 0 && password.length() != 0 && email.length() != 0  && birthDate.length() == 10){
             if (phoneNumber.length() == 8 && isNumeric(phoneNumber)) {
                 if (email.contains("@")) {
                     if (passSecurityLevel(password)) {
                         password = getMD5(password); //Encrypt password
-                        
+
                         String usersFilePath = "C:\\MEIA\\usuario.txt";
                         String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
                         String descUsersFilePath = "C:\\MEIA\\desc_usuario.txt";
                         String descBitUsersFilePath = "C:\\MEIA\\desc_bitacora_usuario.txt";
-                        
+
                         File usersFile = new File(usersFilePath);
                         File bitUsersFile = new File(bitUsersFilePath);
-                        
+
                         File descUsersFile = new File(descUsersFilePath);
-                        File descBitUsersFile = new File(descBitUsersFilePath);                   
-                        
+                        File descBitUsersFile = new File(descBitUsersFilePath);
+
                         try{
                             if (!usersFile.exists() && !bitUsersFile.exists()) {
                                 //If it's the first user, create admin and add to binnacle
-                                role = 1;                
+                                role = 1;
                             }
-                       
-                                                   
+
                             if (!usersFile.exists()) {
                                 usersFile.createNewFile();
                                 descUsersFile.createNewFile();
@@ -291,7 +322,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                             {
                                 showMessageDialog(null, "Register Failed: Your username already exists.");
                             }
-                            
+
                         } catch (Exception e){
                             e.printStackTrace();
                         }
@@ -300,7 +331,7 @@ public class RegisterFrame extends javax.swing.JFrame {
                     {
                         showMessageDialog(null, "Register Failed: Your password is not secure, try with another password.");
                     }
-   
+
                 }
                 else
                 {
@@ -317,38 +348,6 @@ public class RegisterFrame extends javax.swing.JFrame {
             showMessageDialog(null, "Register Failed: Some fields are empty or in the wrong format.");
         }
     }//GEN-LAST:event_JBRegisterActionPerformed
-
-    private void JBPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBPhotoActionPerformed
-        //Create a JFileChooser, add a filter for images and let the user choose his profile image, setting the path in the textbox.
-        JFileChooser dialogue = new JFileChooser("C:\\MEIA");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Images", "jpg", "png");
-        dialogue.setFileFilter(filter);
-        
-        File imageFile;
-        String imagePath;
-               
-        int valor = dialogue.showOpenDialog(this);
-
-        if (valor == JFileChooser.APPROVE_OPTION) {
-            imageFile = dialogue.getSelectedFile();           
-            
-            imagePath = imageFile.getPath();
-            File newImage = new File(imagePath);
-            newImage.renameTo(new File("C:/MEIA/IMAGENES/"+JTFUsername.getText()+".jpg"));
-            JTFPhotoPath.setText(newImage.getAbsolutePath());  
-        }
-    }//GEN-LAST:event_JBPhotoActionPerformed
-
-    private void JBBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBackActionPerformed
-        LoginFrame myFrame = new LoginFrame();
-        myFrame.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_JBBackActionPerformed
-
-    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
-        LoginFrame.filesReorganization();
-        System.exit(0);
-    }//GEN-LAST:event_jlblCloseMouseClicked
 
     public static boolean isNumeric(String str) 
     { 
