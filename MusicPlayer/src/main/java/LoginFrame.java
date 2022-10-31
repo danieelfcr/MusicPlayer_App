@@ -178,7 +178,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 if (userInformation[9].contains("1")) {
                 Data usr = Data.Instance(username, userInformation[1], userInformation[2], password, userInformation[4], userInformation[5], userInformation[6], userInformation[7], userInformation[8], userInformation[9]);
                 JOptionPane.showMessageDialog(null, "¡Bienvenido " + username + "!" );
-                UserFrame myFrame = new UserFrame();
+                UserMusic myFrame = new UserMusic();
                 myFrame.setVisible(true);
                 dispose();
                 }
