@@ -1,3 +1,14 @@
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,6 +25,8 @@ public class UserMusic extends javax.swing.JFrame {
      */
     public UserMusic() {
         initComponents();
+        fillRecomSongsList();
+        fillPlaylists();
     }
 
     /**
@@ -40,7 +53,7 @@ public class UserMusic extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         JBCreatePlaylist = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        JBAddSong = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,11 +80,6 @@ public class UserMusic extends javax.swing.JFrame {
         jLabel1.setText("Welcome!");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, -1));
 
-        jLPlaylist.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jLPlaylist.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jLPlaylist);
 
@@ -87,29 +95,30 @@ public class UserMusic extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 480, 950, -1));
 
-        jPanel3.setBackground(new java.awt.Color(146, 149, 223));
+        jPanel3.setBackground(new java.awt.Color(153, 0, 255));
 
         JBPlay.setFont(new java.awt.Font("Century Gothic", 0, 27)); // NOI18N
         JBPlay.setText("PLAY");
+        JBPlay.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(503, 503, 503)
-                .addComponent(JBPlay)
-                .addContainerGap(535, Short.MAX_VALUE))
+                .addGap(509, 509, 509)
+                .addComponent(JBPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(560, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(43, 43, 43)
                 .addComponent(JBPlay)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 680, 1200, 130));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 710, 1200, 130));
 
         jLabel2.setBackground(new java.awt.Color(204, 204, 255));
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 27)); // NOI18N
@@ -135,9 +144,14 @@ public class UserMusic extends javax.swing.JFrame {
         });
         jPanel1.add(JBCreatePlaylist, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 100, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Century Gothic", 0, 27)); // NOI18N
-        jButton1.setText("Add to playlist");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 620, -1, -1));
+        JBAddSong.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        JBAddSong.setText("Add to playlist");
+        JBAddSong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBAddSongActionPerformed(evt);
+            }
+        });
+        jPanel1.add(JBAddSong, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 650, -1, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,9 +173,98 @@ public class UserMusic extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_JBCreatePlaylistActionPerformed
 
+    private void JBAddSongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAddSongActionPerformed
+        
+        String playlist = jLPlaylist.getSelectedValue();
+        String songData = jLAvailableSongs.getSelectedValue();
+        String songCode = songData.substring(0,1);
+        //Verify if user is admin or not NOT IMPLEMENTED
+        String user = Data.getUser();
+        
+        SequentialIndexed.Initialize(user, playlist, songCode, 5);
+        showMessageDialog(null, "Se ha agregado correctamente a la playlist.");
+   
+    }//GEN-LAST:event_JBAddSongActionPerformed
+
     private void fillRecomSongsList()
     {
-        
+        try{
+            //Obtener archivos que se encuentran en MEIA
+            String songsFilePath = "C:\\MEIA\\canciones.txt";
+            String binSongsFilePath = "C:\\MEIA\\bitacora_canciones.txt";
+            
+            File songsFile = new File(songsFilePath);
+            File binSongsFile = new File(binSongsFilePath);
+ 
+            //Metodos de lectura de archivos
+            FileReader frResult = new FileReader(songsFile);
+            BufferedReader brResult = new BufferedReader(frResult);
+
+            FileReader frResultBit = new FileReader(binSongsFile);
+            BufferedReader brResultBit = new BufferedReader(frResultBit);
+            
+            String line;
+            DefaultListModel songs = new DefaultListModel();
+             while(!"".equals(line = brResult.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[6].equals("1")) {
+                            songs.addElement(arr[0] + ".    " + arr[1] + " - " + arr[2]);
+                        }
+                    }
+              while(!"".equals(line = brResultBit.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[6].equals("1")) {
+                            songs.addElement(arr[0] + ".    " + arr[1] + " - " + arr[2]);
+                        }
+                    }
+             jLAvailableSongs.setModel(songs);
+            
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                }   
+    }
+    
+    private void fillPlaylists()
+    {
+        try
+        {
+            String songsFilePath = "C:\\MEIA\\listas_canciones.txt";
+            String binSongsFilePath = "C:\\MEIA\\bitacora_listas_canciones.txt";
+
+            File songsFile = new File(songsFilePath);
+            File binSongsFile = new File(binSongsFilePath);  
+            
+            FileReader frResult = new FileReader(songsFile);
+            BufferedReader brResult = new BufferedReader(frResult);
+
+            FileReader frResultBit = new FileReader(binSongsFile);
+            BufferedReader brResultBit = new BufferedReader(frResultBit);
+            
+            String line;
+            DefaultListModel songs = new DefaultListModel();
+             while(!"".equals(line = brResult.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[4].equals("1") && arr[0].equals(Data.getUser())) {
+                            songs.addElement(arr[1]);
+                        }
+                    }
+              while(!"".equals(line = brResultBit.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[4].equals("1") && arr[0].equals(Data.getUser())) {
+                            songs.addElement(arr[1]);
+                        }
+                    }
+             jLPlaylist.setModel(songs);
+             
+        }catch(IOException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+                }       
     }
     
     /**
@@ -200,9 +303,9 @@ public class UserMusic extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBAddSong;
     private javax.swing.JButton JBCreatePlaylist;
     private javax.swing.JButton JBPlay;
-    private javax.swing.JButton jButton1;
     private javax.swing.JList<String> jLAvailableSongs;
     private javax.swing.JList<String> jLPlaylist;
     private javax.swing.JList<String> jLSongs;

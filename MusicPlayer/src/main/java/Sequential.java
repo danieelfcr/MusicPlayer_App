@@ -143,26 +143,7 @@ public class Sequential {
         }
     }
      
-     
-     public static void addToBin(String user, String name, String lastname, String pass, int role, String birthDate, String email, String phone, String imagePath, int status, File file, File desc, int qFields)
-    {
-         try{
-            String data = user + "|" + name + "|" + lastname + "|" + pass + "|" + role + "|" + birthDate + "|" + email + "|" + phone + "|" + imagePath + "|" + status;
-        
-            FileWriter fw = new FileWriter(file, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.append(data+"\n");
-            bw.close();
-            
-            updateDesc(file, desc, user, qFields);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-      
-     public static void updateDesc(File bit, File desc, String user, int qFields)
+         public static void updateDesc(File bit, File desc, String user, int qFields)
     {
         try
         {
@@ -325,10 +306,10 @@ public class Sequential {
             String bitUsersFilePath = "C:\\MEIA\\bitacora_usuario.txt";
             String descUsersFilePath = "C:\\MEIA\\desc_usuario.txt";
             String descBitUsersFilePath = "C:\\MEIA\\desc_bitacora_usuario.txt";
-            String songsFilePath = "C:\\MEIA\\usuario.txt";
+           /* String songsFilePath = "C:\\MEIA\\usuario.txt";
             String binSongsFilePath = "C:\\MEIA\\bitacora_usuario.txt";
             String descSongsFilePath = "C:\\MEIA\\desc_usuario.txt";
-            String descBinSongsFilePath = "C:\\MEIA\\desc_bitacora_usuario.txt";
+            String descBinSongsFilePath = "C:\\MEIA\\desc_bitacora_usuario.txt";*/
 
             File usersFile = new File(usersFilePath);
             File bitUsersFile = new File(bitUsersFilePath);
