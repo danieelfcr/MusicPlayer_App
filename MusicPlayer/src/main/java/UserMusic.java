@@ -81,6 +81,11 @@ public class UserMusic extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, -1));
 
         jLPlaylist.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jLPlaylist.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jLPlaylistValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jLPlaylist);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 320, 220));
@@ -186,6 +191,40 @@ public class UserMusic extends javax.swing.JFrame {
    
     }//GEN-LAST:event_JBAddSongActionPerformed
 
+    private void jLPlaylistValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jLPlaylistValueChanged
+        String playlist = jLPlaylist.getSelectedValue();
+        String user = Data.getUser();
+        
+        String indexFilePath = "C:\\MEIA\\index.txt";
+        File indexFile = new File(indexFilePath);
+        String descIndexFilePath = "C:\\MEIA\\desc_index.txt";
+        File descIndexFile = new File(descIndexFilePath);  
+        
+        String songsFilePath = "C:\\MEIA\\canciones.txt";
+        String binSongsFilePath = "C:\\MEIA\\bitacora_canciones.txt";
+        File songsFile = new File(songsFilePath);
+        File binSongsFile = new File(binSongsFilePath);
+        
+        String[] arr = SequentialIndexed.getIndexedList(indexFile, SequentialIndexed.getListStart(descIndexFile));
+        DefaultListModel songs = new DefaultListModel();
+        String info = "";
+        
+        for (String item: arr) {
+            info = addSongsToPlaylist(indexFile, descIndexFile, user, playlist, item);
+            if (!"".equals(info)) {
+                String[] data = info.split("\\|");
+           
+                String song = Sequential.searchInfo(songsFile, binSongsFile, data[3]);
+                if (!"".equals(song)) {               
+                String[] songFields = song.split("\\|"); 
+                songs.addElement(songFields[0] + ".    " + songFields[1] + " - " + songFields[2]);
+            }
+            }
+                     
+        }
+        jLSongs.setModel(songs);
+    }//GEN-LAST:event_jLPlaylistValueChanged
+
     private void fillRecomSongsList()
     {
         try{
@@ -265,6 +304,16 @@ public class UserMusic extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
                 }       
+    }
+    
+    public static String addSongsToPlaylist(File index, File descIndex, String user, String playlist, String nextIndex)
+    {
+        String line = SequentialIndexed.searchRegister(index, nextIndex);
+        String[] fields = line.split("\\|");
+        if (user.equals(fields[1]) && playlist.equals(fields[2])) {
+            return line;
+        }
+        return "";
     }
     
     /**

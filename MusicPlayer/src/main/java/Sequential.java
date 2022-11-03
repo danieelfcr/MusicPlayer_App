@@ -378,4 +378,69 @@ public class Sequential {
                 e.printStackTrace();
             }
      }
+    
+    public static String searchInfo(File master, File bin, String code)
+    {
+        try
+        {
+            FileReader frMaster = new FileReader(master);
+            BufferedReader brMaster = new BufferedReader(frMaster);
+            
+            FileReader frBin = new FileReader(bin);
+            BufferedReader brBin = new BufferedReader(frBin);
+            
+            List<String> codes = new ArrayList<String>();
+            List<String> info = new ArrayList<String>();
+            String linea = "";
+            
+            if (bin.exists()) {
+                while(!"".equals(linea = brBin.readLine()) && linea != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    codes.add(arr[0]);
+                    info.add(linea);
+                }
+            }
+            if (master.exists()) {
+                while(!"".equals(linea = brMaster.readLine()) && linea != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    codes.add(arr[0]);
+                    info.add(linea);
+                }
+            }
+            
+            String [] arrCodes = new String[codes.size()];
+            arrCodes = codes.toArray(arrCodes);
+            int pos = Search(arrCodes, code);
+            
+            if (pos != -1) {
+               String[] arrInfo = info.toArray(new String[0]);
+                if (arrCodes[pos].equals(code)) {
+                    brMaster.close();
+                    brBin.close();
+                    return arrInfo[pos];
+                }
+            }
+            brMaster.close();
+            brBin.close();
+            return "";
+            
+        } catch (IOException e)
+        {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+            return "";
+        }
+    }
+    
+    public static int Search(String[] arr, String x)
+    {
+        
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(x)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

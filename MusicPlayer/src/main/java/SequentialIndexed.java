@@ -466,4 +466,36 @@ public class SequentialIndexed {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
                 }  
     }
+    
+    public static String[] getIndexedList(File index, String indexNo)
+    {
+        try
+        {
+            FileReader frResult = new FileReader(index);
+            BufferedReader brResult = new BufferedReader(frResult);
+                       
+            int reg = Sequential.countRegisters(index);
+            String[] indexes = new String[reg];
+            int counter = 1;                    
+            
+            indexes[0] = indexNo;
+            while(counter < reg)
+            {
+                String helper = searchRegister(index, indexNo);
+                String[] fields = helper.split("\\|");
+                indexes[counter] = fields[5];
+                
+                indexNo = fields[5];      
+                counter++;
+            }
+            
+            return indexes;
+            
+        } catch(IOException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
+            String[] no = new String[1];
+            return no;
+        }
+    }
 }
