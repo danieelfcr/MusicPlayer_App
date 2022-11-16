@@ -443,4 +443,71 @@ public class Sequential {
         }
         return -1;
     }
+    
+    public static void closeReorg(File master, File descMaster, File bin, File descBin, int qFields)
+    {
+        try{
+                if (master.exists() && bin.exists()) {
+                    FileReader frResult = new FileReader(master);
+                    BufferedReader brResult = new BufferedReader(frResult);
+
+                    FileReader frResultBit = new FileReader(bin);
+                    BufferedReader brResultBit = new BufferedReader(frResultBit);
+
+                    List<String> masterUsers = new ArrayList<String>();
+                    List<String> bitUsers = new ArrayList<String>();
+                    String line = "";
+                    
+                    //Read each line of both files, if status is 1, add to specific list
+                    while(!"".equals(line = brResult.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[qFields].equals("1")) {
+                            masterUsers.add(line);
+                        }
+                    }
+                    while(!"".equals(line = brResultBit.readLine()) && line != null)
+                    {
+                        String [] arr = line.split("\\|");
+                        if (arr[qFields].equals("1")) {
+                            bitUsers.add(line);
+                        }
+                    }
+                    
+                    //For each information on bitUsers list, add it to masterUsers list
+                    for (String info :bitUsers) {
+                        masterUsers.add(info);
+                    }
+                    //Sort list
+                    masterUsers.stream().sorted().collect(Collectors.toList());  
+                    
+                    //Write on master file
+                    FileWriter fwMaster = new FileWriter(master, false);
+                    BufferedWriter bwMaster = new BufferedWriter(fwMaster);
+                    
+                    String content ="";
+                    for (String info :masterUsers) {
+                        content += info + "\n";
+                    }
+                    
+                    bwMaster.write(content);
+                    bwMaster.close();
+                    updateDesc(master, descMaster, "admin", qFields);
+                    
+                    //Clear binnacle
+                    FileWriter fwBit = new FileWriter(bin, false);
+                    BufferedWriter bwBit = new BufferedWriter(fwBit);
+                    
+                    bwBit.write("");
+                    bwBit.close();
+                    updateDesc(bin, descBin, "admin", qFields);
+                    
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+    }
+    
+    
 }

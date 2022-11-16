@@ -33,6 +33,22 @@ public class UserFrame extends javax.swing.JFrame {
      */
     public UserFrame() {
         initComponents();
+        JTFEmail.setText(Data.getEmail());
+        JTFPhoneNumber.setText(Data.getPhone());
+        JTFPhotoPath.setText(Data.getPhotoPath());
+        Date date1;  
+        try {
+            date1 = new SimpleDateFormat("dd/MM/yyyy").parse(Data.getBirthDate());
+            jDateChooser.setDate(date1);
+        } catch (ParseException ex) {
+            Logger.getLogger(UserFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        lblUsername.setText(Data.getUser());
+        lblRole.setText("User");
+        
+        /*ImageIcon ico = new ImageIcon(getClass().getResource(Data.getPhotoPath()));
+        icon.setIcon(ico);*/
+        
     }
 
     /**
@@ -64,7 +80,6 @@ public class UserFrame extends javax.swing.JFrame {
         lblRole = new javax.swing.JLabel();
         JTFPhoneNumber = new javax.swing.JTextField();
         jDateChooser = new com.toedter.calendar.JDateChooser();
-        btnRefresh = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         icon = new javax.swing.JLabel();
         jlblClose = new javax.swing.JLabel();
@@ -115,14 +130,7 @@ public class UserFrame extends javax.swing.JFrame {
 
         jDateChooser.setDateFormatString("dd/MM/yyyy");
 
-        btnRefresh.setText("Refresh");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-
-        btnLogOut.setText("Log Out");
+        btnLogOut.setText("Back");
         btnLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogOutActionPerformed(evt);
@@ -153,12 +161,7 @@ public class UserFrame extends javax.swing.JFrame {
                         .addGap(233, 233, 233)
                         .addComponent(lblUsername)
                         .addGap(263, 263, 263)
-                        .addComponent(lblRole))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(btnRefresh)
-                        .addGap(59, 59, 59)
-                        .addComponent(btnLogOut)))
+                        .addComponent(lblRole)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -197,16 +200,21 @@ public class UserFrame extends javax.swing.JFrame {
                             .addComponent(JBDelete))))
                 .addGap(322, 322, 322))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(232, 232, 232))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnLogOut)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(232, 232, 232))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,11 +264,9 @@ public class UserFrame extends javax.swing.JFrame {
                     .addComponent(JBChangeInfo1)
                     .addComponent(jLabel3)
                     .addComponent(JBDelete))
-                .addGap(88, 88, 88)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRefresh)
-                    .addComponent(btnLogOut))
-                .addGap(103, 103, 103))
+                .addGap(95, 95, 95)
+                .addComponent(btnLogOut)
+                .addGap(96, 96, 96))
         );
 
         pack();
@@ -301,30 +307,9 @@ public class UserFrame extends javax.swing.JFrame {
        validateUser(newPassword, newEmail, newPhone, newPhoto, newBirthDate);
     }//GEN-LAST:event_JBChangeInfo1ActionPerformed
 
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        JTFEmail.setText(Data.getEmail());
-        JTFPhoneNumber.setText(Data.getPhone());
-        JTFPhotoPath.setText(Data.getPhotoPath());
-        Date date1;  
-        try {
-            date1 = new SimpleDateFormat("dd/MM/yyyy").parse(Data.getBirthDate());
-            jDateChooser.setDate(date1);
-        } catch (ParseException ex) {
-            Logger.getLogger(UserFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        lblUsername.setText(Data.getUser());
-        lblRole.setText("User");
-        
-        /*ImageIcon ico = new ImageIcon(getClass().getResource(Data.getPhotoPath()));
-        icon.setIcon(ico);*/
-        
-        btnRefresh.setEnabled(false);
-    
-    }//GEN-LAST:event_btnRefreshActionPerformed
-
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-       showMessageDialog(null, "Logging out...");
-       LoginFrame myFrame = new LoginFrame();
+
+       UserMusic myFrame = new UserMusic();
                 myFrame.setVisible(true);
                 dispose();
     }//GEN-LAST:event_btnLogOutActionPerformed
@@ -505,7 +490,6 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JTextField JTFPhoneNumber;
     private javax.swing.JTextField JTFPhotoPath;
     private javax.swing.JButton btnLogOut;
-    private javax.swing.JButton btnRefresh;
     private javax.swing.JLabel icon;
     private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabel1;

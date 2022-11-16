@@ -1,13 +1,21 @@
 
+import com.sun.istack.internal.logging.Logger;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -40,6 +48,9 @@ public class UserMusic extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jBBack = new javax.swing.JButton();
+        jBAccount = new javax.swing.JButton();
+        jlblClose = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jLPlaylist = new javax.swing.JList<>();
@@ -54,6 +65,8 @@ public class UserMusic extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         JBCreatePlaylist = new javax.swing.JButton();
         JBAddSong = new javax.swing.JButton();
+        jBOrderArtist = new javax.swing.JButton();
+        jBOrderCode = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,15 +75,51 @@ public class UserMusic extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(153, 0, 255));
 
+        jBBack.setText("Log out");
+        jBBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBBackActionPerformed(evt);
+            }
+        });
+
+        jBAccount.setText("Account");
+        jBAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAccountActionPerformed(evt);
+            }
+        });
+
+        jlblClose.setBackground(new java.awt.Color(74, 31, 61));
+        jlblClose.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlblClose.setText("X");
+        jlblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblCloseMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(757, Short.MAX_VALUE)
+                .addComponent(jBBack)
+                .addGap(18, 18, 18)
+                .addComponent(jBAccount)
+                .addGap(40, 40, 40)
+                .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBBack, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 50));
@@ -105,6 +154,11 @@ public class UserMusic extends javax.swing.JFrame {
         JBPlay.setFont(new java.awt.Font("Century Gothic", 0, 27)); // NOI18N
         JBPlay.setText("PLAY");
         JBPlay.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        JBPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBPlayActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -158,6 +212,24 @@ public class UserMusic extends javax.swing.JFrame {
         });
         jPanel1.add(JBAddSong, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 650, -1, 40));
 
+        jBOrderArtist.setFont(new java.awt.Font("Century Gothic", 0, 27)); // NOI18N
+        jBOrderArtist.setText("Order by artist");
+        jBOrderArtist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBOrderArtistActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jBOrderArtist, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, -1, -1));
+
+        jBOrderCode.setFont(new java.awt.Font("Century Gothic", 0, 27)); // NOI18N
+        jBOrderCode.setText("Order by code");
+        jBOrderCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBOrderCodeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jBOrderCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 420, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,6 +244,8 @@ public class UserMusic extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    ArrayList<String> songsx = new ArrayList<String>();
+    
     private void JBCreatePlaylistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBCreatePlaylistActionPerformed
         CreatePlaylist myFrame = new CreatePlaylist();
         myFrame.setVisible(true);
@@ -182,13 +256,31 @@ public class UserMusic extends javax.swing.JFrame {
         
         String playlist = jLPlaylist.getSelectedValue();
         String songData = jLAvailableSongs.getSelectedValue();
-        String songCode = songData.substring(0,1);
-        //Verify if user is admin or not NOT IMPLEMENTED
-        String user = Data.getUser();
         
-        SequentialIndexed.Initialize(user, playlist, songCode, 5);
-        showMessageDialog(null, "Se ha agregado correctamente a la playlist.");
-   
+        
+        if (playlist != null && songData != null) {
+            String songCode = songData.substring(0,1);
+
+            String user = Data.getUser();
+
+            String indexFilePath = "C:\\MEIA\\index.txt";
+            File indexFile = new File(indexFilePath);
+            if (!keyExists(indexFile, Data.getUser(), playlist, songCode, 1, 2, 3)) {
+                SequentialIndexed.Initialize(user, playlist, songCode, 5);
+                showMessageDialog(null, "Se ha agregado correctamente a la playlist.");       
+            }
+            else
+            {
+                showMessageDialog(null, "Esta canción ya existe en la playlist");
+            }
+        }
+        else
+        {
+            showMessageDialog(null, "Debes de seleccionar la playlist y una canción que desees añadir a ella.");
+        }
+        
+        
+           
     }//GEN-LAST:event_JBAddSongActionPerformed
 
     private void jLPlaylistValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jLPlaylistValueChanged
@@ -205,25 +297,131 @@ public class UserMusic extends javax.swing.JFrame {
         File songsFile = new File(songsFilePath);
         File binSongsFile = new File(binSongsFilePath);
         
-        String[] arr = SequentialIndexed.getIndexedList(indexFile, SequentialIndexed.getListStart(descIndexFile));
-        DefaultListModel songs = new DefaultListModel();
-        String info = "";
-        
-        for (String item: arr) {
-            info = addSongsToPlaylist(indexFile, descIndexFile, user, playlist, item);
-            if (!"".equals(info)) {
-                String[] data = info.split("\\|");
-           
-                String song = Sequential.searchInfo(songsFile, binSongsFile, data[3]);
-                if (!"".equals(song)) {               
-                String[] songFields = song.split("\\|"); 
-                songs.addElement(songFields[0] + ".    " + songFields[1] + " - " + songFields[2]);
+        if (indexFile.exists() && songsFile.exists()) {
+            String[] arr = SequentialIndexed.getIndexedList(indexFile, SequentialIndexed.getListStart(descIndexFile));
+            DefaultListModel songs = new DefaultListModel();
+            String info = "";
+
+            for (String item: arr) {
+                info = addSongsToPlaylist(indexFile, descIndexFile, user, playlist, item);
+                if (!"".equals(info)) {
+                    String[] data = info.split("\\|");
+
+                    String song = Sequential.searchInfo(songsFile, binSongsFile, data[3]);
+                    if (!"".equals(song)) {               
+                    String[] songFields = song.split("\\|"); 
+                    songs.addElement(songFields[0] + ".    " + songFields[1] + " - " + songFields[2]);
+                }
+                }
+
             }
-            }
-                     
+            jLSongs.setModel(songs); 
+
         }
-        jLSongs.setModel(songs);
     }//GEN-LAST:event_jLPlaylistValueChanged
+
+    private void JBPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBPlayActionPerformed
+        String song = jLSongs.getSelectedValue();
+        String song2 = jLAvailableSongs.getSelectedValue();
+        String code = song.substring(0,1);
+        
+        String songsFilePath = "C:\\MEIA\\canciones.txt";
+        String binSongsFilePath = "C:\\MEIA\\bitacora_canciones.txt";
+        File songsFile = new File(songsFilePath);
+        File binSongsFile = new File(binSongsFilePath);
+        
+        String data = Sequential.searchInfo(songsFile, binSongsFile, code);
+        String[] songFields = data.split("\\|");
+        String path = songFields[3];
+        
+        MusicRep.Start(path);
+    }//GEN-LAST:event_JBPlayActionPerformed
+
+    private void jBBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBackActionPerformed
+        LoginFrame myFrame = new LoginFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jBBackActionPerformed
+
+    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
+        LoginFrame.filesReorganization();
+        System.exit(0);
+    }//GEN-LAST:event_jlblCloseMouseClicked
+
+    private void jBAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAccountActionPerformed
+        if (!("1").equals(Data.getRole())) {
+            UserFrame myFrame = new UserFrame();
+            myFrame.setVisible(true);
+            dispose(); 
+        }
+        else
+        {
+            AdminMenu myFrame = new AdminMenu();
+            myFrame.setVisible(true);
+            dispose(); 
+        }     
+    }//GEN-LAST:event_jBAccountActionPerformed
+
+    private void jBOrderArtistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOrderArtistActionPerformed
+        String listFilePath = "C:\\MEIA\\lista.txt";
+        String descListFilePath = "C:\\MEIA\\desc_lista.txt";
+        File listFile = new File(listFilePath);
+        File descListFile = new File(descListFilePath);
+        
+        for (String info :songsx) {
+            String [] arr = info.split("\\|"); 
+            Song song = new Song();
+                song.artist = arr[2];
+                song.code = arr[0];
+                song.song_name = arr[1];
+                song.path = arr[3];
+                song.transUser = arr[4];
+                song.creationDate = arr[5];
+                song.status = arr[6];
+            
+            BinaryTree.add(song); //add song to binary tree
+                  
+        }
+        BinaryTree.inf.clear();
+        BinaryTree.traverseInOrder(BinaryTree.root);
+        DefaultListModel songs = new DefaultListModel();
+        
+        for (String info :BinaryTree.inf) {
+            String [] arr = info.split("\\|");
+            if (arr[6].equals("1")) {
+                String x = arr[1] + ".    " + arr[2] + " - " + arr[0];
+                songs.addElement(x);
+            }
+        }
+         jLAvailableSongs.setModel(songs);
+        
+         for (String info: songsx) {
+             String [] arr = info.split("\\|"); 
+             String data = BinaryTree.getInfoWithChildren(arr[0], arr[2]); //Get the complete register including childs
+            writeOnFile(data, listFile, descListFile);
+        }
+    }//GEN-LAST:event_jBOrderArtistActionPerformed
+
+    private void writeOnFile(String data, File list, File desc)
+    {
+        createFiles(list, desc);
+         try{       
+            FileWriter fw = new FileWriter(list, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.append(data+"\n");
+            bw.close();
+            
+            SequentialIndexed.updateBlockDesc(Data.getUser(), list, desc, 9);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    private void jBOrderCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOrderCodeActionPerformed
+        fillRecomSongsList();
+    }//GEN-LAST:event_jBOrderCodeActionPerformed
 
     private void fillRecomSongsList()
     {
@@ -234,32 +432,40 @@ public class UserMusic extends javax.swing.JFrame {
             
             File songsFile = new File(songsFilePath);
             File binSongsFile = new File(binSongsFilePath);
- 
-            //Metodos de lectura de archivos
-            FileReader frResult = new FileReader(songsFile);
-            BufferedReader brResult = new BufferedReader(frResult);
+            
+            if(songsFile.exists())
+            {
+                //Metodos de lectura de archivos
+                FileReader frResult = new FileReader(songsFile);
+                BufferedReader brResult = new BufferedReader(frResult);
 
-            FileReader frResultBit = new FileReader(binSongsFile);
-            BufferedReader brResultBit = new BufferedReader(frResultBit);
-            
-            String line;
-            DefaultListModel songs = new DefaultListModel();
-             while(!"".equals(line = brResult.readLine()) && line != null)
-                    {
-                        String [] arr = line.split("\\|");
-                        if (arr[6].equals("1")) {
-                            songs.addElement(arr[0] + ".    " + arr[1] + " - " + arr[2]);
+                FileReader frResultBit = new FileReader(binSongsFile);
+                BufferedReader brResultBit = new BufferedReader(frResultBit);
+
+                String line;
+                DefaultListModel songs = new DefaultListModel();
+                songsx.clear();
+                
+                 while(!"".equals(line = brResult.readLine()) && line != null)
+                        {
+                            String [] arr = line.split("\\|");
+                            if (arr[6].equals("1")) {
+                                String info = arr[0] + ".    " + arr[1] + " - " + arr[2];
+                                songs.addElement(info);
+                                songsx.add(line);
+                            }
                         }
-                    }
-              while(!"".equals(line = brResultBit.readLine()) && line != null)
-                    {
-                        String [] arr = line.split("\\|");
-                        if (arr[6].equals("1")) {
-                            songs.addElement(arr[0] + ".    " + arr[1] + " - " + arr[2]);
+                  while(!"".equals(line = brResultBit.readLine()) && line != null)
+                        {
+                            String [] arr = line.split("\\|");
+                            if (arr[6].equals("1")) {
+                                String info = arr[0] + ".    " + arr[1] + " - " + arr[2];
+                                songs.addElement(info);
+                                songsx.add(line);
+                            }
                         }
-                    }
-             jLAvailableSongs.setModel(songs);
-            
+                 jLAvailableSongs.setModel(songs);
+            }
         }catch(IOException ex)
                 {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
@@ -276,30 +482,32 @@ public class UserMusic extends javax.swing.JFrame {
             File songsFile = new File(songsFilePath);
             File binSongsFile = new File(binSongsFilePath);  
             
-            FileReader frResult = new FileReader(songsFile);
-            BufferedReader brResult = new BufferedReader(frResult);
+            if(songsFile.exists())
+            {
+                FileReader frResult = new FileReader(songsFile);
+                BufferedReader brResult = new BufferedReader(frResult);
 
-            FileReader frResultBit = new FileReader(binSongsFile);
-            BufferedReader brResultBit = new BufferedReader(frResultBit);
-            
-            String line;
-            DefaultListModel songs = new DefaultListModel();
-             while(!"".equals(line = brResult.readLine()) && line != null)
-                    {
-                        String [] arr = line.split("\\|");
-                        if (arr[4].equals("1") && arr[0].equals(Data.getUser())) {
-                            songs.addElement(arr[1]);
+                FileReader frResultBit = new FileReader(binSongsFile);
+                BufferedReader brResultBit = new BufferedReader(frResultBit);
+
+                String line;
+                DefaultListModel songs = new DefaultListModel();
+                 while(!"".equals(line = brResult.readLine()) && line != null)
+                        {
+                            String [] arr = line.split("\\|");
+                            if (arr[4].equals("1") && arr[0].equals(Data.getUser())) {
+                                songs.addElement(arr[1]);
+                            }
                         }
-                    }
-              while(!"".equals(line = brResultBit.readLine()) && line != null)
-                    {
-                        String [] arr = line.split("\\|");
-                        if (arr[4].equals("1") && arr[0].equals(Data.getUser())) {
-                            songs.addElement(arr[1]);
+                  while(!"".equals(line = brResultBit.readLine()) && line != null)
+                        {
+                            String [] arr = line.split("\\|");
+                            if (arr[4].equals("1") && arr[0].equals(Data.getUser())) {
+                                songs.addElement(arr[1]);
+                            }
                         }
-                    }
-             jLPlaylist.setModel(songs);
-             
+                 jLPlaylist.setModel(songs);
+            }
         }catch(IOException ex)
                 {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error.");
@@ -316,6 +524,56 @@ public class UserMusic extends javax.swing.JFrame {
         return "";
     }
     
+    private static boolean keyExists(File master, String Key1, String Key2, String Key3, int posKey1, int posKey2, int posKey3)
+    {
+         try
+        {
+            FileReader frMaster = new FileReader(master);
+            BufferedReader brMaster = new BufferedReader(frMaster);
+            
+            
+            String linea = "";
+            
+            if (master.exists()) {
+                while(!"".equals(linea = brMaster.readLine()) && linea != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    if (Key1.equals(arr[posKey1])) {
+                        if (Key2.equals(arr[posKey2])) {
+                            if (Key3.equals(arr[posKey3])) {
+                                brMaster.close();
+                                return true; 
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            brMaster.close();
+            return false;
+                       
+        } catch (IOException e)
+        {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+            return false;
+        }
+    }
+
+    public static void createFiles(File file, File desc)
+    {
+        try
+        {
+            if (!file.exists()) {
+                file.createNewFile();
+                desc.createNewFile();
+                SequentialIndexed.createBlockDesc(desc, Data.getUser());
+            }
+        }
+        catch(Exception e)
+        {
+             e.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -355,6 +613,10 @@ public class UserMusic extends javax.swing.JFrame {
     private javax.swing.JButton JBAddSong;
     private javax.swing.JButton JBCreatePlaylist;
     private javax.swing.JButton JBPlay;
+    private javax.swing.JButton jBAccount;
+    private javax.swing.JButton jBBack;
+    private javax.swing.JButton jBOrderArtist;
+    private javax.swing.JButton jBOrderCode;
     private javax.swing.JList<String> jLAvailableSongs;
     private javax.swing.JList<String> jLPlaylist;
     private javax.swing.JList<String> jLSongs;
@@ -368,5 +630,6 @@ public class UserMusic extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel jlblClose;
     // End of variables declaration//GEN-END:variables
 }

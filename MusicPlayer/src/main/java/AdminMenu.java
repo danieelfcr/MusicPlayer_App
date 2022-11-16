@@ -27,6 +27,8 @@ public class AdminMenu extends javax.swing.JFrame {
      */
     public AdminMenu() {
         initComponents();
+        jTFUsername.setText(AdminData.getUser());
+        jTFRole.setText("Admin");
     }
 
     /**
@@ -43,16 +45,16 @@ public class AdminMenu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jlblClose = new javax.swing.JLabel();
         JBRegister = new javax.swing.JButton();
         JBSearch = new javax.swing.JButton();
         JBBackup = new javax.swing.JButton();
-        JBRefresh = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         JBAddSongs = new javax.swing.JButton();
         jTFUsername = new javax.swing.JTextField();
         jTFRole = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        jlblClose = new javax.swing.JLabel();
+        jBMusic = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,11 +74,6 @@ public class AdminMenu extends javax.swing.JFrame {
 
         jLabel10.setText("Role:");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, -1, -1));
-
-        jlblClose.setBackground(new java.awt.Color(74, 31, 61));
-        jlblClose.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jlblClose.setText("X");
-        jPanel2.add(jlblClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 0, -1, -1));
 
         JBRegister.setText("Register a new user");
         JBRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -102,11 +99,13 @@ public class AdminMenu extends javax.swing.JFrame {
         });
         jPanel2.add(JBBackup, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 520, 520, -1));
 
-        JBRefresh.setText("Refresh");
-        jPanel2.add(JBRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 770, -1, -1));
-
         btnLogOut.setText("Log Out");
-        jPanel2.add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 770, -1, -1));
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, -1, 40));
 
         JBAddSongs.setText("Add songs");
         JBAddSongs.addActionListener(new java.awt.event.ActionListener() {
@@ -116,10 +115,12 @@ public class AdminMenu extends javax.swing.JFrame {
         });
         jPanel2.add(JBAddSongs, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 600, 520, -1));
 
-        jTFUsername.setBorder(null);
+        jTFUsername.setEditable(false);
+        jTFUsername.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(jTFUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, 260, -1));
 
-        jTFRole.setBorder(null);
+        jTFRole.setEditable(false);
+        jTFRole.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(jTFRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 250, -1));
 
         jPanel1.setBackground(new java.awt.Color(153, 0, 255));
@@ -137,6 +138,24 @@ public class AdminMenu extends javax.swing.JFrame {
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 1090, 120));
 
+        jlblClose.setBackground(new java.awt.Color(74, 31, 61));
+        jlblClose.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlblClose.setText("X");
+        jlblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblCloseMouseClicked(evt);
+            }
+        });
+        jPanel2.add(jlblClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 0, -1, -1));
+
+        jBMusic.setText("My music");
+        jBMusic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBMusicActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jBMusic, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 680, 520, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,7 +164,9 @@ public class AdminMenu extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 790, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -211,6 +232,23 @@ public class AdminMenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_JBAddSongsActionPerformed
 
+    private void jlblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblCloseMouseClicked
+        LoginFrame.filesReorganization();
+        System.exit(0);
+    }//GEN-LAST:event_jlblCloseMouseClicked
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        LoginFrame myFrame = new LoginFrame();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void jBMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMusicActionPerformed
+        UserMusic myFrame = new UserMusic();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jBMusicActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -249,10 +287,10 @@ public class AdminMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBAddSongs;
     private javax.swing.JButton JBBackup;
-    private javax.swing.JButton JBRefresh;
     private javax.swing.JButton JBRegister;
     private javax.swing.JButton JBSearch;
     private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton jBMusic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

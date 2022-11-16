@@ -262,7 +262,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         String password = JTFPassword.getText();
         String email = JTFEmail.getText();
         String phoneNumber = JTFPhoneNumber.getText();
-        String photoPath = JTFPhotoPath.getText();
+        String photoPath = "C:/MEIA/IMAGENES/"+JTFUsername.getText()+".jpg";
         int role = 0, status = 1;
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

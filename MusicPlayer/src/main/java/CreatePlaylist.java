@@ -1,7 +1,13 @@
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /*
@@ -120,17 +126,23 @@ public class CreatePlaylist extends javax.swing.JFrame {
         File descBinPlaylistsFile = new File(descBinPlaylistsFilePath);
         
         Sequential.createFiles(playlistsFile, descPlaylistsFile, binPlaylistsFile, descBinPlaylistsFile);
-                
-        if (!Sequential.isMaxReorg(binPlaylistsFile, descBinPlaylistsFile)) {
+        
+        if (!keyExists(playlistsFile, binPlaylistsFile, Data.getUser(), jTFName.getText(), 0, 1)) {
+           if (!Sequential.isMaxReorg(binPlaylistsFile, descBinPlaylistsFile)) {
             addToBin(Data.getUser(), jTFName.getText(), Data.getUser(), Sequential.getDate(), binPlaylistsFile, descBinPlaylistsFile);
+            }
+            else
+            {
+                Sequential.Reorganization(playlistsFile, binPlaylistsFile, descPlaylistsFile, descBinPlaylistsFile, 4);
+                addToBin(Data.getUser(), jTFName.getText(), Data.getUser(), Sequential.getDate(), binPlaylistsFile, descBinPlaylistsFile);
+            }
+
+            showMessageDialog(null, "Playlist creada exitosamente."); 
         }
         else
         {
-            Sequential.Reorganization(playlistsFile, binPlaylistsFile, descPlaylistsFile, descBinPlaylistsFile, 4);
-            addToBin(Data.getUser(), jTFName.getText(), Data.getUser(), Sequential.getDate(), binPlaylistsFile, descBinPlaylistsFile);
+            showMessageDialog(null, "Playlist ya ha sido creada anteriormente"); 
         }
-        
-        showMessageDialog(null, "Canción añadida exitosamente.");
     }//GEN-LAST:event_JBCreateActionPerformed
 
     private void JBBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBackActionPerformed
@@ -153,6 +165,55 @@ public class CreatePlaylist extends javax.swing.JFrame {
             
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    private static boolean keyExists(File master, File bin, String Key1, String Key2, int posKey1, int posKey2)
+    {
+         try
+        {
+            FileReader frMaster = new FileReader(master);
+            BufferedReader brMaster = new BufferedReader(frMaster);
+            
+            FileReader frBin = new FileReader(bin);
+            BufferedReader brBin = new BufferedReader(frBin);
+            
+            String linea = "";
+            
+            if (bin.exists()) {
+                while(!"".equals(linea = brBin.readLine()) && linea != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    if (Key1.equals(arr[posKey1])) {
+                        if (Key2.equals(arr[posKey2])) {
+                            brMaster.close();
+                            brBin.close();
+                            return true;
+                        }
+                    }
+                }
+            }
+            if (master.exists()) {
+                while(!"".equals(linea = brMaster.readLine()) && linea != null)
+                {
+                    String arr [] = linea.split("\\|");
+                    if (Key1.equals(arr[posKey1])) {
+                        if (Key2.equals(arr[posKey2])) {
+                            brMaster.close();
+                            brBin.close();
+                            return true;
+                        }
+                    }
+                }
+            }
+            brMaster.close();
+            brBin.close();
+            return false;
+                       
+        } catch (IOException e)
+        {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+            return false;
         }
     }
     

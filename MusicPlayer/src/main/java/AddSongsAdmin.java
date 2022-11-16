@@ -45,6 +45,7 @@ public class AddSongsAdmin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jlblClose = new javax.swing.JLabel();
+        JBBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,9 +102,7 @@ public class AddSongsAdmin extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(354, 354, 354)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(368, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 348, Short.MAX_VALUE)
                 .addComponent(jlblClose, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -116,6 +115,15 @@ public class AddSongsAdmin extends javax.swing.JFrame {
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1120, 160));
+
+        JBBack.setFont(new java.awt.Font("Century Gothic", 0, 27)); // NOI18N
+        JBBack.setText("Back");
+        JBBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBBackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(JBBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 700, -1, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,7 +142,7 @@ public class AddSongsAdmin extends javax.swing.JFrame {
     private void jBImportSongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBImportSongActionPerformed
         //Create a JFileChooser, add a filter for images and let the user choose his profile image, setting the path in the textbox.
         JFileChooser dialogue = new JFileChooser("C:\\MEIA");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Songs", "mp3");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Songs", "wav");
         dialogue.setFileFilter(filter);
 
         File songFile;
@@ -148,7 +156,7 @@ public class AddSongsAdmin extends javax.swing.JFrame {
             if (!"".equals(jTFSongName.getText()) && !"".equals(jTFArtist.getText())) {
                songPath = songFile.getPath();
                 File newSong = new File(songPath);
-                newSong.renameTo(new File("C:/MEIA/CANCIONES/"+jTFSongName.getText()+"-" + jTFArtist.getText() + ".mp3"));
+                newSong.renameTo(new File("C:/MEIA/CANCIONES/"+jTFSongName.getText()+"-" + jTFArtist.getText() + ".wav"));
                 jTFSongPath.setText(newSong.getAbsolutePath()); 
             }   
         }
@@ -166,7 +174,7 @@ public class AddSongsAdmin extends javax.swing.JFrame {
         File descBinSongsFile = new File(descBinSongsFilePath);
         
         Sequential.createFiles(songsFile, descSongsFile, binSongsFile, descBinSongsFile);
-        String songPath = "C:/MEIA/CANCIONES/"+jTFSongName.getText()+"-" + jTFArtist.getText() + ".mp3";
+        String songPath = "C:/MEIA/CANCIONES/"+jTFSongName.getText()+"-" + jTFArtist.getText() + ".wav";
                 
         if (!Sequential.isMaxReorg(binSongsFile, descBinSongsFile)) {
             addToBin(Sequential.countRegisters(binSongsFile)+1, jTFSongName.getText(), jTFArtist.getText(), songPath, binSongsFile, descBinSongsFile);
@@ -185,6 +193,12 @@ public class AddSongsAdmin extends javax.swing.JFrame {
         Sequential.filesReorganization();
         System.exit(0);
     }//GEN-LAST:event_jlblCloseMouseClicked
+
+    private void JBBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBackActionPerformed
+       AdminMenu myFrame = new AdminMenu();
+        myFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_JBBackActionPerformed
 
     public static void addToBin(int code, String songName, String artist, String songPath, File file, File desc)
     {
@@ -240,6 +254,7 @@ public class AddSongsAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBBack;
     private javax.swing.JButton jBAddSong;
     private javax.swing.JButton jBImportSong;
     private javax.swing.JLabel jLabel5;
