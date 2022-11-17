@@ -394,21 +394,21 @@ public class UserMusic extends javax.swing.JFrame {
             }
         }
          jLAvailableSongs.setModel(songs);
-        
+         String data = "";
          for (String info: songsx) {
              String [] arr = info.split("\\|"); 
-             String data = BinaryTree.getInfoWithChildren(arr[0], arr[2]); //Get the complete register including childs
-            writeOnFile(data, listFile, descListFile);
+             data += BinaryTree.getInfoWithChildren(arr[0], arr[2]) + "\n"; //Get the complete register including childs      
         }
+         writeOnFile(data, listFile, descListFile);
     }//GEN-LAST:event_jBOrderArtistActionPerformed
 
     private void writeOnFile(String data, File list, File desc)
     {
         createFiles(list, desc);
          try{       
-            FileWriter fw = new FileWriter(list, true);
+            FileWriter fw = new FileWriter(list);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.append(data+"\n");
+            bw.write(data);
             bw.close();
             
             SequentialIndexed.updateBlockDesc(Data.getUser(), list, desc, 9);

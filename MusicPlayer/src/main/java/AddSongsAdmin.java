@@ -177,7 +177,7 @@ public class AddSongsAdmin extends javax.swing.JFrame {
         String songPath = "C:/MEIA/CANCIONES/"+jTFSongName.getText()+"-" + jTFArtist.getText() + ".wav";
                 
         if (!Sequential.isMaxReorg(binSongsFile, descBinSongsFile)) {
-            addToBin(Sequential.countRegisters(binSongsFile)+1, jTFSongName.getText(), jTFArtist.getText(), songPath, binSongsFile, descBinSongsFile);
+            addToBin(Sequential.countRegisters(songsFile)+Sequential.countRegisters(binSongsFile)+1, jTFSongName.getText(), jTFArtist.getText(), songPath, binSongsFile, descBinSongsFile);
         }
         else
         {
